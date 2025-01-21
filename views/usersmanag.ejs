@@ -1,0 +1,42 @@
+<%- include('partsadmin/top') %>
+<%- include('partsadmin/sidebar') %>
+
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('partsadmin/navbar') %>
+    <div class="container-fluid">
+      <h1 class="h3 mb-0 text-gray-800">User Management</h1>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Admin</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td><%= user.isAdmin ? 'Yes' : 'No' %></td>
+              <td>
+                <form action="/usersmanag/edit/<%= user._id %>" method="POST">
+                  <button type="submit" class="btn btn-warning">Edit</button>
+                </form>
+                <form action="/usersmanag/delete/<%= user._id %>" method="POST">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <%- include('partsadmin/footer') %>
+</div>
+
+<%- include('partsadmin/bottom') %>

@@ -1,0 +1,88 @@
+<%- include('partsadmin/top') %>
+<%- include('partsadmin/sidebar') %>
+
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('partsadmin/navbar') %>
+    
+    <div class="container-fluid">
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Manage Categories</h1>
+      </div>
+
+      <!-- Add Category Form -->
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <form action="/addcategory" method="POST">
+                <div class="form-group">
+                  <label for="categoryName">Category Name:</label>
+                  <input 
+                    type="text" 
+                    id="categoryName" 
+                    name="name" 
+                    class="form-control" 
+                    placeholder="Enter category name" 
+                    required>
+                </div>
+                <% if (Emessage) { %>
+                  <small class="text-danger"><%= Emessage %></small>
+                <% } %>
+                <% if (Smessage) { %>
+                  <small class="text-success"><%= Smessage %></small>
+                <% } %>
+                <button type="submit" class="btn btn-primary">Add Category</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Existing Categories -->
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Existing Categories</h6>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Category Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% categories.forEach(category => { %>
+                    <tr>
+                      <td><%= category.name %></td>
+                      <td>
+                        <form action="/editcategory/<%= category._id %>" method="POST" style="display:inline;">
+                          <input 
+                            type="text" 
+                            name="name" 
+                            value="<%= category.name %>" 
+                            class="form-control d-inline-block" 
+                            style="width: auto;">
+                          <button type="submit" class="btn btn-sm btn-warning">Edit</button>
+                        </form>
+                        <form action="/deletecategory/<%= category._id %>" method="POST" style="display:inline;">
+                          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include('partsadmin/footer') %>
+</div>
+
+<%- include('partsadmin/bottom') %>
