@@ -8,48 +8,48 @@
 
     <div class="container-fluid" id="container-wrapper">
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Update Book</h1>
+        <h1 class="h3 mb-0 text-gray-800">Update Product</h1>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Update Book</li>
+          <li class="breadcrumb-item active" aria-current="page">Update Product</li>
         </ol>
       </div>
 
       <!-- Main Content Area -->
       <div class="col-md-9">
         <div class="container">
-          <h2 class="mb-4">Update Book</h2>
+          <h2 class="mb-4">Update Product</h2>
 
-          <!-- Update Book Form -->
-          <form action="/mybooks/update/<%= bookUpdate._id %>" method="POST" enctype="multipart/form-data">
+          <!-- Update Product Form -->
+          <form action="/myproducts/update/<%= productUpdate._id %>" method="POST" enctype="multipart/form-data">
             <div class="form-group">
               <label for="title">Title</label>
-              <input type="text" class="form-control" name="title" id="title" value="<%= bookUpdate.title %>" required>
+              <input type="text" class="form-control" name="title" id="title" value="<%= productUpdate.title %>" required>
             </div>
             <div class="form-group">
               <label for="author">Author</label>
-              <input type="text" class="form-control" name="author" id="author" value="<%= bookUpdate.author %>" required>
+              <input type="text" class="form-control" name="author" id="author" value="<%= productUpdate.author %>" required>
             </div>
             <div class="form-group">
               <label for="price">Price</label>
-              <input type="number" class="form-control" name="price" id="price" value="<%= bookUpdate.price %>" required>
+              <input type="number" class="form-control" name="price" id="price" value="<%= productUpdate.price %>" required>
             </div>
             <div class="form-group">
               <label for="image">Image</label><br>
-              <img src="/uploads/<%= bookUpdate.image %>" alt="Book Image" class="mb-2" height="100" width="75">
-              <input type="hidden" name="oldImage" value="<%= bookUpdate.image %>">
+              <img src="/uploads/<%= productUpdate.image %>" alt="Product Image" class="mb-2" height="100" width="75">
+              <input type="hidden" name="oldImage" value="<%= productUpdate.image %>">
               <input type="file" class="form-control" name="image" id="image" accept=".jpg,.png,.jpeg">
             </div>
             <div class="form-group">
               <label for="description">Description</label>
-              <textarea class="form-control" name="description" id="description" rows="4" required><%= bookUpdate.description %></textarea>
+              <textarea class="form-control" name="description" id="description" rows="4" required><%= productUpdate.description %></textarea>
             </div>
             <div class="form-group">
               <label for="category">Category:</label>
               <select id="category" name="category" class="form-control" required>
                 <option value="">Select Category</option>
                 <% categories.forEach(category => { %>
-                  <option value="<%= category._id %>" <%= bookUpdate.category == category._id ? "selected" : "" %>>
+                  <option value="<%= category._id %>" <%= productUpdate.category == category._id ? "selected" : "" %>>
                     <%= category.name %>
                   </option>
                 <% }) %>
@@ -67,7 +67,7 @@
               </div>
             <% } %> -->
 
-            <button type="submit" class="btn btn-primary">Update Book</button>
+            <button type="submit" class="btn btn-primary">Update Product</button>
           </form>
         </div>
       </div>

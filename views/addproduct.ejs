@@ -8,22 +8,22 @@
 
     <div class="container-fluid" id="container-wrapper">
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Add Book</h1>
+        <h1 class="h3 mb-0 text-gray-800">Add Product</h1>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Add Book</li>
+          <li class="breadcrumb-item active" aria-current="page">Add Product</li>
         </ol>
       </div>
 
       <!-- Main Content Area -->
       <div class="col-md-9">
         <div class="container">
-          <h2 class="mb-4">Add Book</h2>
+          <h2 class="mb-4">Add Product</h2>
           
        
 
-          <!-- Add Book Form -->
-          <form action="/addbook" method="POST" enctype="multipart/form-data">
+          <!-- Add Product Form -->
+          <form action="/addproduct" method="POST" enctype="multipart/form-data">
             <div class="form-group">
               <label for="title">Title</label>
               <input type="text" class="form-control" name="title" id="title" required>
@@ -54,7 +54,7 @@
               <% }) %>
             </select>
           </div>
-            <button type="submit" class="btn btn-primary">Add Book</button>
+            <button type="submit" class="btn btn-primary">Add Product</button>
           </form>
         </div>
       </div>

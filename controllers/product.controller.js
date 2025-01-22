@@ -1,26 +1,26 @@
-const BookModel = require("../models/book.model");
+const ProductModel = require("../models/product.model");
 const CategoryModel = require("../models/category.model"); // Import the Category model
-
-// Get all books
-exports.getAllBooksController = (req, res, next) => {
-  BookModel.getAllBooks().then((books) => {
-    res.render("books", { books: books, user: req.session.user });
+const Product = require("../models/product.model");
+// Get all products
+exports.getAllProductsController = (req, res, next) => {
+  ProductModel.getAllProducts().then((products) => {
+    res.render("dashboard", { products: products, user: req.session.user });
   });
 };
 
-// Get one book details
-exports.getOneBookDetailsController = (req, res, next) => {
+// Get one product details
+exports.getOneProductDetailsController = (req, res, next) => {
   let id = req.params.id;
-  BookModel.getOneBookDetails(id).then((book) => {
-    res.render("details", { book: book, user: req.session.user });
+  ProductModel.getOneProductDetails(id).then((product) => {
+    res.render("details", { product: product, user: req.session.user });
   });
 };
 
-// Get add book page with categories
-exports.getAddBookController = (req, res, next) => {
+// Get add product page with categories
+exports.getAddProductController = (req, res, next) => {
   CategoryModel.getAllCategories() // Fetch all categories
     .then(categories => {
-      res.render("addbook", {
+      res.render("addproduct", {
         user: req.session.user,
         categories: categories, // Pass categories to the form
         Smessage: req.flash("Successmessage")[0],
@@ -29,14 +29,14 @@ exports.getAddBookController = (req, res, next) => {
     })
     .catch(err => {
       req.flash("Errormessage", err);
-      res.redirect("/addbook");
+      res.redirect("/addproduct");
     });
 };
 
-// Post a new book (with category)
-exports.postAddBookController = (req, res, next) => {
+// Post a new product (with category)
+exports.postAddProductController = (req, res, next) => {
   const { title, description, author, price, category } = req.body; // Capture category from form
-  BookModel.postDataBookModel(
+  ProductModel.postDataProductModel(
     title,
     description,
     author,
@@ -47,16 +47,16 @@ exports.postAddBookController = (req, res, next) => {
   )
     .then((msg) => {
       req.flash("Successmessage", msg);
-      res.redirect("/mybooks");
+      res.redirect("/myproducts");
     })
     .catch((err) => {
       req.flash("Errormessage", err);
-      res.redirect("/addbook");
+      res.redirect("/addproduct");
     });
 };
 
-// Get my books page
-exports.getMyBooksPage = (req, res, next) => {
+// Get my products page
+exports.getMyProductsPage = (req, res, next) => {
   const userId = req.session.user.id; // Using user ID from session
   const searchQuery = req.query.q || ""; // Search query
   const page = parseInt(req.query.page) || 1; // Current page
@@ -64,11 +64,11 @@ exports.getMyBooksPage = (req, res, next) => {
   
   const skip = (page - 1) * limit;
 
-  BookModel.getMyBooks(userId, searchQuery, skip, limit).then((result) => {
-    res.render("mybooks", {
+  ProductModel.getMyProducts(userId, searchQuery, skip, limit).then((result) => {
+    res.render("myproducts", {
       user: req.session.user,
-      books: result.books,
-      totalBooks: result.totalBooks,
+      products: result.products,
+      totalProducts: result.totalProducts,
       currentPage: page,
       limit: limit,
       searchQuery: searchQuery,
@@ -77,27 +77,27 @@ exports.getMyBooksPage = (req, res, next) => {
   });
 };
 
-// Delete a book by ID
-exports.deleteBookController = (req, res, next) => {
+// Delete a product by ID
+exports.deleteProductController = (req, res, next) => {
   let id = req.params.id;
-  BookModel.deletebook(id)
+  ProductModel.deleteproduct(id)
     .then(() => {
-      res.redirect("/mybooks");
+      res.redirect("/myproducts");
     })
     .catch((err) => {
       console.log(err);
     });
 };
 
-// Get update book page with existing book data and categories
-exports.getMyBookUpdatePage = (req, res, next) => {
+// Get update product page with existing product data and categories
+exports.getMyProductUpdatePage = (req, res, next) => {
   let id = req.params.id;
-  CategoryModel.getAllCategories() // Fetch categories to update the book's category
+  CategoryModel.getAllCategories() // Fetch categories to update the product's category
     .then(categories => {
-      BookModel.getPageUpdateBookModel(id).then((book) => {
-        res.render("updateBook", {
+      ProductModel.getPageUpdateProductModel(id).then((product) => {
+        res.render("updateProduct", {
           user: req.session.user,
-          bookUpdate: book,
+          productUpdate: product,
           categories: categories, // Pass categories to the form
           Smessage: req.flash("Successmessage")[0],
           Emessage: req.flash("Errormessage")[0],
@@ -106,28 +106,27 @@ exports.getMyBookUpdatePage = (req, res, next) => {
     })
     .catch(err => {
       req.flash("Errormessage", err);
-      res.redirect(`/mybooks/update/${req.params.id}`);
+      res.redirect(`/myproducts/update/${req.params.id}`);
     });
 };
 
-// Post updated book data (with category)
-const Book = require("../models/book.model");
 
-exports.postUpdateBookController = (req, res) => {
-  const bookId = req.params.id;
+
+exports.postUpdateProductController = (req, res) => {
+  const productId = req.params.id;
   const { title, description, author, price, category } = req.body;
   const image = req.file ? req.file.filename : req.body.oldImage;
   const userId = req.session.user._id; // Ensure this is from the session
 
-  Book.postUpdateBookModel(bookId, title, description, author, price, image, userId, category)
+  Product.postUpdateProductModel(productId, title, description, author, price, image, userId, category)
     .then(() => {
-      req.flash("success", "Book updated successfully!");
-      res.redirect("/mybooks");
+      req.flash("success", "Product updated successfully!");
+      res.redirect("/myproducts");
     })
     .catch((err) => {
       console.error(err);
-      req.flash("error", "Failed to update the book.");
-      res.redirect("/mybooks");
+      req.flash("error", "Failed to update the product.");
+      res.redirect("/myproducts");
     });
 };
 

@@ -8,32 +8,32 @@
 
     <div class="container-fluid" id="container-wrapper">
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Book Details</h1>
+        <h1 class="h3 mb-0 text-gray-800">Product Details</h1>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Book Details</li>
+          <li class="breadcrumb-item active" aria-current="page">Product Details</li>
         </ol>
       </div>
 
-      <!-- Book Details Section -->
+      <!-- Product Details Section -->
       <div class="container my-5">
         <div class="row align-items-center">
-          <!-- Book Image -->
+          <!-- Product Image -->
           <div class="col-md-4 text-center">
-            <img src="/uploads/<%= book.image %>" alt="<%= book.title %>" class="img-fluid rounded shadow" style="max-height: 400px;">
+            <img src="/uploads/<%= product.image %>" alt="<%= product.title %>" class="img-fluid rounded shadow" style="max-height: 400px;">
           </div>
 
-          <!-- Book Information -->
+          <!-- Product Information -->
           <div class="col-md-8">
-            <h1 class="display-4"><%= book.title %></h1>
-            <h4 class="text-muted">by: <%= book.author %></h4>
-            <p class="lead text-primary font-weight-bold">for: <%= book.price %> $</p>
-            <p class="text-justify"><%= book.description %></p>
+            <h1 class="display-4"><%= product.title %></h1>
+            <h4 class="text-muted">by: <%= product.author %></h4>
+            <p class="lead text-primary font-weight-bold">for: <%= product.price %> $</p>
+            <p class="text-justify"><%= product.description %></p>
 
             <!-- Actions -->
             <div class="mt-4">
-              <a href="/mybooks/update/<%= book._id %>" class="btn btn-primary btn-lg">Update Product</a>
-              <a href="/mybooks" class="btn btn-secondary btn-lg">Back to My products</a>
+              <a href="/myproducts/update/<%= product._id %>" class="btn btn-primary btn-lg">Update Product</a>
+              <a href="/myproducts" class="btn btn-secondary btn-lg">Back to My products</a>
             </div>
           </div>
         </div>

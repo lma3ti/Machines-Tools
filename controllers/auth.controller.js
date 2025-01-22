@@ -1,5 +1,5 @@
 const authModel = require("../models/auth.model");
-
+const bcrypt = require("bcrypt");
 exports.getRegisterPage = (req, res, next) => {
   res.render("register", {
     user: req.session.user, 
@@ -75,16 +75,39 @@ exports.getAllUsersController = (req, res) => {
 // Edit user
 exports.editUserController = (req, res) => {
   const { id } = req.params;
-  const { name, isAdmin } = req.body;
+  const { name, email, password, isAdmin } = req.body;
 
-  authModel
-    .updateUser(id, { name, isAdmin })
-    .then(() => {
-      res.redirect("/usersmanag");
-    })
-    .catch((err) => {
-      res.status(500).send("Error updating user");
-    });
+  const updateData = { name, email, isAdmin };
+
+  // If a new password is provided, hash it
+  if (password && password.trim() !== "") {
+    bcrypt.hash(password, 10)
+      .then((hashedPassword) => {
+        updateData.password = hashedPassword;
+        return authModel.updateUser(id, updateData);
+      })
+      .then(() => {
+        res.redirect("/usersmanag");
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error updating user");
+      });
+  } else {
+    authModel
+      .updateUser(id, updateData)
+      .then(() => {
+        res.redirect("/usersmanag");
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error updating user");
+      });
+  }
+};
+// update user
+exports.updateUser = (id, updatedData) => {
+  return User.findByIdAndUpdate(id, updatedData, { new: true });
 };
 
 // Delete user

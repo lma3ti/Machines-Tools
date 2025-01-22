@@ -8,18 +8,18 @@
 
     <div class="container-fluid" id="container-wrapper">
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">My Books</h1>
+        <h1 class="h3 mb-0 text-gray-800">My Products</h1>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-          <li class="breadcrumb-item active" aria-current="page">My Books</li>
+          <li class="breadcrumb-item active" aria-current="page">My Products</li>
         </ol>
       </div>
 
       <!-- Main Content Area -->
       <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">Manage Your Books</h6>
-          <form method="GET" action="/mybooks" class="form-inline">
+          <h6 class="m-0 font-weight-bold text-primary">Manage Your Products</h6>
+          <form method="GET" action="/myproducts" class="form-inline">
             <input
               type="text"
               name="q"
@@ -54,41 +54,41 @@
                 </tr>
               </thead>
               <tbody>
-                <% if (books.length === 0) { %>
+                <% if (products.length === 0) { %>
                   <tr>
-                    <td colspan="5" class="text-center">No books found.</td>
+                    <td colspan="5" class="text-center">No products found.</td>
                   </tr>
                 <% } else { %>
-                  <% books.forEach((book) => { %>
+                  <% products.forEach((product) => { %>
                     <tr>
                       <td>
                         <img
-                          src="/uploads/<%= book.image %>"
-                          alt="<%= book.title %>"
+                          src="/uploads/<%= product.image %>"
+                          alt="<%= product.title %>"
                           style="height: 50px; width: 50px;"
                         />
                       </td>
-                      <td><%= book.title %></td>
-                      <td><%= book.author %></td>
-                      <td>$<%= book.price %></td>
-                      <td><%= book.category ? book.category.name : "Uncategorized" %></td>
+                      <td><%= product.title %></td>
+                      <td><%= product.author %></td>
+                      <td>$<%= product.price %></td>
+                      <td><%= product.category ? product.category.name : "Uncategorized" %></td>
                       <td>
                         <a
-                        href="/books/<%= book._id %>"
+                        href="/products/<%= product._id %>"
                         class="btn btn-secondary btn-sm"
                       >
                         view 
                       </a>
                         <a
-                          href="/mybooks/update/<%= book._id %>"
+                          href="/myproducts/update/<%= product._id %>"
                           class="btn btn-primary btn-sm"
                         >
                           Update
                         </a>
                         <a
-                          href="/mybooks/delete/<%= book._id %>"
+                          href="/myproducts/delete/<%= product._id %>"
                           class="btn btn-danger btn-sm"
-                          onclick="return confirm('Are you sure you want to delete this book?')"
+                          onclick="return confirm('Are you sure you want to delete this product?')"
                         >
                           Delete
                         </a>
@@ -104,10 +104,10 @@
 
       <!-- Custom Pagination -->
       <div class="d-flex justify-content-between align-items-center mt-3">
-        <div>Total Books: <%= totalBooks %></div>
+        <div>Total Products: <%= totalProducts %></div>
         <nav>
           <ul class="pagination">
-            <% for (let i = 1; i <= Math.ceil(totalBooks / limit); i++) { %>
+            <% for (let i = 1; i <= Math.ceil(totalProducts / limit); i++) { %>
               <li class="page-item <%= currentPage == i ? "active" : "" %>">
                 <a
                   class="page-link"

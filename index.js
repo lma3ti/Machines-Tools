@@ -7,13 +7,14 @@ const flash = require("connect-flash");
 
 // Routes
 const RouterHome = require("./routers/home.route");
-const RouterBook = require("./routers/book.route");
+const RouterProduct = require("./routers/product.route");
 const RouterAuth = require("./routers/auth.route");
-const RouterMyBooks = require("./routers/mybooks.route");
+const RouterMyProducts = require("./routers/myproducts.route");
 const RouterContact = require("./routers/contact.route");
 const RouterAbout = require("./routers/about.route");
 const RouterDashboard = require("./routers/dashboard.route");
 const RouterCategory = require("./routers/category.route");
+
 // MongoDB Connection Setup
 const dbUrl =
   "mongodb+srv://wepadisign:7HRcyHKldhLC0TN9@website.6eqfj.mongodb.net/?retryWrites=true&w=majority&appName=website";
@@ -45,6 +46,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 app.use(flash());
 
 // Middleware to pass session data to all templates
@@ -60,9 +62,9 @@ app.use((req, res, next) => {
 });
 // Define routes
 app.use("/", RouterHome);
-app.use("/", RouterBook);
+app.use("/", RouterProduct);
 app.use("/", RouterAuth);
-app.use("/mybooks", RouterMyBooks);
+app.use("/myproducts", RouterMyProducts);
 app.use("/", RouterContact);
 app.use("/", RouterAbout);
 app.use("/", RouterDashboard);
