@@ -4,7 +4,7 @@ const Product = require("../models/product.model");
 // Get all products
 exports.getAllProductsController = (req, res, next) => {
   ProductModel.getAllProducts().then((products) => {
-    res.render("dashboard", { products: products, user: req.session.user });
+    res.render("myproducts", { products: products, user: req.session.user });
   });
 };
 
