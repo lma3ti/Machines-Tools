@@ -4,7 +4,7 @@ const router=require('express').Router()
 
 
 
-router.get('/',HomeController.threeBooksController)
+router.get('/',HomeController.threeProductsController)
 
 
 

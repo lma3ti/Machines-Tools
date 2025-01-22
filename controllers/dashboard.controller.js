@@ -1,24 +1,27 @@
-const BookController = require("../controllers/book.controller"); // Import the bookController
-const categoryController = require("../controllers/category.controller");
-const BookModel = require("../models/book.model"); // Import the Book model
-const CategoryModel = require("../models/category.model");
+const ProductModel = require("../models/product.model"); // Import the Product model
+const CategoryModel = require("../models/category.model"); // Import the Category model
+const AuthModel = require("../models/auth.model"); // Import the Auth model for users
 
 exports.getDashboard = (req, res, next) => {
   const userId = req.session.user.id; // Get the user ID from the session
-  
-  // Fetch the count of books and categories simultaneously
-  Promise.all([
-    BookModel.getMyBooks(userId, "", 0, 0), // No limit, just count books
-    CategoryModel.getAllCategories() // Fetch all categories
-  ])
-    .then(([bookResult, categories]) => {
-      const totalBooks = bookResult.totalBooks; // Get the total number of books
 
-      // Render the dashboard and pass the total number of books and categories
+  // Fetch the count of products, categories, total users, and total admins
+  Promise.all([
+    ProductModel.getMyProducts(userId, "", 0, 0), // Fetch products for the user (no limit)
+    CategoryModel.getAllCategories(), // Fetch all categories
+    AuthModel.countUsers(), // Count all users
+    AuthModel.countAdmins() // Count all admins
+  ])
+    .then(([productResult, categories, totalUsers, totalAdmins]) => {
+      const totalProducts = productResult.totalProducts; // Get the total number of products
+
+      // Render the dashboard and pass all the totals to the view
       res.render("dashboard", {
         user: req.session.user,
-        totalBooks: totalBooks, // Pass total number of books to the view
-        categories: categories, // Pass categories to the view
+        totalProducts: totalProducts, // Total number of products
+        categories: categories, // Categories data
+        totalUsers: totalUsers, // Total number of users
+        totalAdmins: totalAdmins, // Total number of admins
       });
     })
     .catch((err) => {
