@@ -19,9 +19,9 @@ router.post('/addproduct', multer({
     })
 }).single(['image']), GuardAuth.isAuth, productController.postAddProductController);
 
-router.get('/products/:id', GuardAuth.isAuth, productController.getAllProductsController);
-router.get('/products/:id', GuardAuth.notAuth, productController.getOneProductDetailsController);
-// router.get('/product/:id', GuardAuth.isAuth, productController.getOneProductDetailsIndex);
+router.get('/products', GuardAuth.isAuth, productController.getAllProductsController);
+router.get('/products/:id', GuardAuth.isAuth, productController.getOneProductDetailsController);
+
 
 
 module.exports = router;
