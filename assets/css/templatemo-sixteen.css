@@ -1,10 +1,4 @@
-/*
 
-TemplateMo 546 Sixteen Clothing
-
-https://templatemo.com/tm-546-sixteen-clothing
-
-*/
 body {
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
@@ -317,7 +311,7 @@ header .navbar {
 }
 
 .banner-item-01 {
-	padding: 300px 0px;
+	padding: 180px 0px;
 	background-image: url(../images/slide_01.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -325,7 +319,7 @@ header .navbar {
 }
 
 .banner-item-02 {
-	padding: 300px 0px;
+	padding: 180px 0px;
 	background-image: url(../images/slide_02.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -333,7 +327,7 @@ header .navbar {
 }
 
 .banner-item-03 {
-	padding: 300px 0px;
+	padding: 180px 0px;
 	background-image: url(../images/slide_03.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -353,7 +347,7 @@ header .navbar {
 }
 
 .banner .text-content h4 {
-	color: #2e78c4;
+	color: #82f219;
 	font-size: 22px;
 	text-transform: uppercase;
 	font-weight: 700;
@@ -361,10 +355,17 @@ header .navbar {
 }
 
 .banner .text-content h2 {
-	color: #fff;
+	color: #f70505;
 	font-size: 62px;
 	text-transform: uppercase;
 	letter-spacing: 5px;
+	background: linear-gradient(to right, rgba(0, 130, 85, 0.968), rgb(0, 204, 255));
+	padding: 5 100px;
+	display: inline-block;
+	text-shadow: 
+	2px 2px 0px rgba(0, 0, 0, 0.3),  /* Bottom-right shadow */
+	4px 4px 0px rgba(0, 0, 0, 0.2),  /* Deeper shadow for depth */
+	6px 6px 0px rgba(0, 0, 0, 0.1);  /* Fainter shadow for a smooth 3D effect */
 }
 
 .owl-banner .owl-dots .owl-dot {
