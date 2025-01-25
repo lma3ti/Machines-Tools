@@ -3,7 +3,7 @@
     <!-- Page Content -->
     <!-- Banner Starts Here -->
     
-    <div class="banner header-textz">
+    <div class="banner header-text">
         <div class="owl-banner owl-carousel">
             <div class="banner-item-01">
                 <div class="text-content">
@@ -33,17 +33,17 @@
                 <div class="col-md-12">
                     <div class="section-heading">
                         <h2>Latest Products</h2>
-                        <a href="products.html">view all products <i class="fa fa-angle-right"></i></a>
+                        <a href="myproducts">view all products <i class="fa fa-angle-right"></i></a>
                     </div>
                 </div>
-                <% for(let book of books) {%>
+                <% for(let product of products) {%>
                     <div class="col-md-4">
                       <div class="product-item ">
-                        <a href="/books/<%= book._id %>" ><img style="height: 450px;" src="uploads/<%= book.image %>" alt=""></a>
+                        <a href="/products/<%= product._id %>" ><img style="height: 450px;" src="uploads/<%= product.image %>" alt=""></a>
                         <div class="down-content">
-                          <a href="/books/<%= book._id %>"  class="img-fluid" ><h4><%= book.title %></h4></a>
-                          <h6>$<%= book.price %></h6>
-                          <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
+                          <a href="/products/<%= product._id %>"  class="img-fluid" ><h4><%= product.title %></h4></a>
+                          <h6>$<%= product.price %></h6>
+                          <p><%= product.description %></p>
                           <ul class="stars">
                             <li><i class="fa fa-star"></i></li>
                             <li><i class="fa fa-star"></i></li>

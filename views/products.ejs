@@ -23,14 +23,14 @@
           <div class="filters-content">
               <div class="row grid">
 
-                <% for(let book of books) {%>
+                <% for(let product of products) {%>
                   <div class="col-lg-4 col-md-4 all des">
                     <div class="product-item">
-                      <a href="/books/<%= book._id %>"><img style="height: 450px;" src="uploads/<%= book.image %>" alt=""></a>
+                      <a href="/products/<%= product._id %>"><img style="height: 450px;" src="uploads/<%= product.image %>" alt=""></a>
                       <div class="down-content">
-                        <a href="/books/<%= book._id %>"><h4><%= book.title %></h4></a>
-                        <h6>$<%= book.price %></h6>
-                        <p><%= book.description %></p>
+                        <a href="/products/<%= product._id %>"><h4><%= product.title %></h4></a>
+                        <h6>$<%= product.price %></h6>
+                        <p><%= product.description %></p>
                         
                         <ul class="stars">
                           <li><i class="fa fa-star"></i></li>
