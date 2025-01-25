@@ -38,23 +38,30 @@
                 </div>
                 <% for(let product of products) {%>
                     <div class="col-md-4">
-                      <div class="product-item ">
-                        <a href="/products/<%= product._id %>" ><img style="height: 450px;" src="uploads/<%= product.image %>" alt=""></a>
-                        <div class="down-content">
-                          <a href="/products/<%= product._id %>"  class="img-fluid" ><h4><%= product.title %></h4></a>
-                          <h6>$<%= product.price %></h6>
-                          <p><%= product.description %></p>
-                          <ul class="stars">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                          </ul>
-                          <span>Reviews (24)</span>
+                        <div class="product-item shadow">
+                          <a href="/products/<%= product._id %>">
+                            <img class="img-fluid" loading="lazy" src="uploads/<%= product.image %>" alt="<%= product.title %>">
+                          </a>
+                          <div class="down-content">
+                            <a href="/products/<%= product._id %>" class="text-decoration-none">
+                              <h4 class="title"><%= product.title %></h4>
+                            </a>
+                            <h6 class="price">$<%= product.price %></h6>
+                            <p><%= product.description %></p>
+                            <ul class="stars">
+                              
+                                <li><i class="fa fa-star"></i></li>
+
+                            
+                                <li><i class="fa fa-star-o"></i></li> <!-- Empty stars -->
+                              
+                            </ul>
+                            <span>Reviews </span>
+                            <button class="btn btn-primary mt-2">Add to Cart</button>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                      
                     <% } %>
             </div>
         </div>
