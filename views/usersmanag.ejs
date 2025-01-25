@@ -4,36 +4,96 @@
 <div id="content-wrapper" class="d-flex flex-column">
   <div id="content">
     <%- include('partsadmin/navbar') %>
-    <div class="container-fluid">
-      <h1 class="h3 mb-0 text-gray-800">User Management</h1>
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Admin</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% users.forEach(user => { %>
-            <tr>
-              <td><%= user.name %></td>
-              <td><%= user.email %></td>
-              <td><%= user.isAdmin ? 'Yes' : 'No' %></td>
-              <td>
-                <form action="/usersmanag/edit/<%= user._id %>" method="POST">
-                  <button type="submit" class="btn btn-warning">Edit</button>
-                </form>
-                <form action="/usersmanag/delete/<%= user._id %>" method="POST">
-                  <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-              </td>
-            </tr>
-          <% }) %>
-        </tbody>
-      </table>
+    <div class="container-fluid">
+      <h1 class="h3 mb-4 text-gray-800">Manage Users</h1>
+
+      <!-- Users Table -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Users</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(user => { %>
+                  <tr>
+                    <td><%= user._id %></td>
+                    <td><%= user.name %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.isAdmin ? 'Admin' : 'User' %></td>
+                    <td>
+                      <!-- Edit Button (Trigger Modal) -->
+                      <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal-<%= user._id %>">Edit</button>
+
+                      <!-- Delete Button -->
+                      <form action="/usersmanag/delete/<%= user._id %>" method="POST" style="display: inline-block;">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                      </form>
+                    </td>
+                  </tr>
+
+                  <!-- Edit User Modal -->
+                  <div class="modal fade" id="editModal-<%= user._id %>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form action="/usersmanag/edit/<%= user._id %>" method="POST">
+                          <div class="modal-body">
+                            <!-- Name Field -->
+                            <div class="form-group">
+                              <label for="name">Name</label>
+                              <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" required>
+                            </div>
+                            <!-- Email Field -->
+                            <div class="form-group">
+                              <label for="email">Email</label>
+                              <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" required>
+                            </div>
+                            <!-- Password Field -->
+                            <div class="form-group">
+                              <label for="password">Password (Leave blank to keep unchanged)</label>
+                              <input type="password" class="form-control" id="password" name="password" placeholder="New password">
+                            </div>
+                            <!-- Role Field -->
+                            <div class="form-group">
+                              <label for="isAdmin">Role</label>
+                              <select class="form-control" id="isAdmin" name="isAdmin">
+                                <option value="true" <%= user.isAdmin ? 'selected' : '' %>>Admin</option>
+                                <option value="false" <%= !user.isAdmin ? 'selected' : '' %>>User</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Edit User Modal -->
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <%- include('partsadmin/footer') %>

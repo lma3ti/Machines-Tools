@@ -19,102 +19,88 @@
           </div>
 
           <div class="row mb-3">
-            <!-- Earnings (Monthly) Card Example -->
+            <div class="row">
+              <!-- Total Products Card -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Products</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalProducts %></div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-product fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <!-- Total Categories Card -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Categories</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%= categories.length %></div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-folder fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <!-- Total Users Card -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Users</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalUsers %></div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <!-- Total Admins Card -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Admins</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalAdmins %></div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-user-shield fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
           
-    
-             
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">BOOKS</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalBooks %></div>
-                      <div class="mt-2 mb-0 text-muted text-xs">
-                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                        <span>Since last month</span>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-primary"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-       
-            <!-- Earnings (Annual) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">Sales</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">650</div>
-                      <div class="mt-2 mb-0 text-muted text-xs">
-                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                        <span>Since last years</span>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-shopping-cart fa-2x text-success"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- New User Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">New User</div>
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</div>
-                      <div class="mt-2 mb-0 text-muted text-xs">
-                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
-                        <span>Since last month</span>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-users fa-2x text-info"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">Pending Requests</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                      <div class="mt-2 mb-0 text-muted text-xs">
-                        <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                        <span>Since yesterday</span>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-warning"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- add book form-->
+            
+            <!-- add product form-->
       
               <div class="col-xl-8 col-lg-7">
                 <div class="card mb-4">
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Add a New Book</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Add a New Product</h6>
                   </div>
                   <div class="card-body">
-                    <form action="/addbook" method="POST" enctype="multipart/form-data">
+                    <form action="/addproduct" method="POST" enctype="multipart/form-data">
                       <div class="form-group">
-                        <label for="title">Book Title</label>
-                        <input type="text" name="title" class="form-control" id="title" placeholder="Enter book title" required>
+                        <label for="title">Product Title</label>
+                        <input type="text" name="title" class="form-control" id="title" placeholder="Enter product title" required>
                       </div>
                       <div class="form-group">
                         <label for="author">Author</label>
@@ -122,11 +108,11 @@
                       </div>
                       <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea name="description" class="form-control" id="description" rows="3" placeholder="Enter book description" required></textarea>
+                        <textarea name="description" class="form-control" id="description" rows="3" placeholder="Enter product description" required></textarea>
                       </div>
                       <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="number" name="price" class="form-control" id="price" placeholder="Enter book price" required>
+                        <input type="number" name="price" class="form-control" id="price" placeholder="Enter product price" required>
                       </div>
                       <div class="form-group">
                         <label for="image">Upload Cover Image</label>
@@ -134,7 +120,7 @@
                       </div>
                       
                         
-                      <button type="submit" class="btn btn-primary">Add Book</button>
+                      <button type="submit" class="btn btn-primary">Add Product</button>
                     </form>
                   </div>
                 </div>

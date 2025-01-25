@@ -1,13 +1,13 @@
-const BookModel = require("../models/book.model");
+const ProductModel = require("../models/product.model");
 exports.getHomePage = (req, res, next) => {
   res.render('index', {
       user: req.session.user, // Pass the user object to the view
   });
 };
-exports.threeBooksController = (req, res, next) => {
-  BookModel.getThreeBooks().then((books) => {
+exports.threeProductsController = (req, res, next) => {
+  ProductModel.getThreeProducts().then((products) => {
     res.render("index", { 
-      books: books ,
+      products: products ,
       user:req.session.user
     });
   });

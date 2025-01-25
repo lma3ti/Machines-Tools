@@ -82,3 +82,11 @@ exports.updateUser = (userId, data) => {
 exports.deleteUser = (userId) => {
   return User.deleteOne({ _id: userId });
 };
+// Count users
+exports.countUsers = () => {
+  return User.countDocuments({});
+};
+// Count Admins
+exports.countAdmins = () => {
+  return User.countDocuments({ isAdmin: true }).exec(); // Count all users with `isAdmin: true`
+};
