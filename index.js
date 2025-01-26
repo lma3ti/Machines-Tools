@@ -14,7 +14,7 @@ const RouterContact = require("./routers/contact.route");
 const RouterAbout = require("./routers/about.route");
 const RouterDashboard = require("./routers/dashboard.route");
 const RouterCategory = require("./routers/category.route");
-
+const RouterallProducts = require("./routers/allproducts.route");
 // MongoDB Connection Setup
 const dbUrl =
   "mongodb+srv://wepadisign:7HRcyHKldhLC0TN9@website.6eqfj.mongodb.net/?retryWrites=true&w=majority&appName=website";
@@ -69,5 +69,6 @@ app.use("/", RouterContact);
 app.use("/", RouterAbout);
 app.use("/", RouterDashboard);
 app.use(RouterCategory);
+app.use("/", RouterallProducts);
 // Start the server
 app.listen(3000, () => console.log("khaddam"));
