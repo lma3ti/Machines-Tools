@@ -18,7 +18,7 @@ var Product = mongoose.model("product", schemaProduct);
 // Function to get the first three products
 exports.getThreeProducts = () => {
   return new Promise((resolve, reject) => {
-    Product.find({}).limit(3)
+    Product.find({}).limit(6)
       .then(products => resolve(products))
       .catch(err => reject(err));
   });

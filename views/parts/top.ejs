@@ -2,20 +2,34 @@
 <html lang="en">
 
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
-    rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Machines & Tools</title>
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/fontawesome.css">
-  <link rel="stylesheet" href="/css/templatemo-sixteen.css">
-  <link rel="stylesheet" href="/css/owl.css">
+
+  <!-- Bootstrap -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="stylesheet" href="css/templatemo-sixteen.css">
+    <link rel="stylesheet" href="css/owl.css">
+ <!-- Bootstrap core JavaScript -->
+ <script src="vendor/jquery/jquery.min.js"></script>
+ <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+ <!-- Additional Scripts -->
+ <script src="js/custom.js"></script>
+ <script src="js/owl.js"></script>
+ <script src="js/slick.js"></script>
+ <script src="js/isotope.js"></script>
+ <script src="js/accordions.js"></script>
+
+
   <style>
-    /* Ensure the submenu appears on hover */
+    /* Dropdown styling */
     .dropdown-submenu {
       position: relative;
     }
@@ -32,127 +46,69 @@
       display: block;
     }
   
-    /* Horizontal layout for the dropdown items */
-    .dropdown-menu .dropdown-item {
-      padding: 10px 20px;
-      white-space: nowrap;
-    }
-  
-    /* Make subcategories display horizontally */
+    /* Horizontal layout for subcategories */
     .dropdown-menu .dropdown-submenu .dropdown-item {
       display: inline-block;
       margin-right: 15px;
       text-align: center;
     }
   </style>
-<script>
-  $(document).ready(function(){
-    // This ensures that the submenu opens when hovering over the parent item
-    $('.dropdown-submenu').hover(function() {
-      $(this).children('.dropdown-menu').stop(true, true).slideDown(200);
-    }, function() {
-      $(this).children('.dropdown-menu').stop(true, true).slideUp(200);
-    });
-  });
-</script>
-  
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('.dropdown-submenu').hover(function() {
+        $(this).children('.dropdown-menu').stop(true, true).slideDown(200);
+      }, function() {
+        $(this).children('.dropdown-menu').stop(true, true).slideUp(200);
+      });
+    });
+  </script>
 </head>
 
 <body>
 
+<header>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <h2>Machines & <em>Tools</em></h2>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/allproducts">Catalog</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
 
-
-  <header class="">
-    <nav class="navbar navbar-expand-lg">
-      <div class="container">
-        <a class="navbar-brand" href="/">
-          <h2>OULAD<em>Abdelouahed</em></h2>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-          aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Home
-                <span class="sr-only">(current)</span>
+          <% if (user) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                <%= user.name %>
               </a>
+              <div class="dropdown-menu">
+                <% if (user.isAdmin) { %>
+                  <a class="dropdown-item" href="/dashboard">Admin Dashboard</a>
+                <% } %>
+                <a class="dropdown-item" href="/myproducts">My Products</a>
+                <a class="dropdown-item" href="/addproduct">Add Machine</a>
+                <form method="POST" action="/logout">
+                  <button type="submit" class="dropdown-item logout-btn">Logout</button>
+                </form>
+              </div>
             </li>
-            <%if(user){%>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <%=user.name %>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <!-- CNC Machines category with brands as horizontal subcategories -->
-                  <a class="dropdown-item" href="/category/cnc-machines">cnc machines</a>
-                  <div class="dropdown-submenu">
-                    <a class="dropdown-item" href="#">CNC Brands</a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="/category/cnc-machines/mazak">Mazak</a>
-                      <a class="dropdown-item" href="/category/cnc-machines/haas">Haas</a>
-                      <a class="dropdown-item" href="/category/cnc-machines/dmg-mori">DMG Mori</a>
-                      <a class="dropdown-item" href="/category/cnc-machines/fanuc">Fanuc</a>
-                    </div>
-                  </div>
-                  
-                  <!-- Injection Molding Machines with brands -->
-                  <a class="dropdown-item" href="/category/injection-molding-machines">Injection Molding Machines</a>
-                  <div class="dropdown-submenu">
-                    <a class="dropdown-item" href="#">Injection Molding Brands</a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="/category/injection-molding-machines/arburg">Arburg</a>
-                      <a class="dropdown-item" href="/category/injection-molding-machines/krauss-maffei">Krauss Maffei</a>
-                      <a class="dropdown-item" href="/category/injection-molding-machines/toyo">Toyo</a>
-                    </div>
-                  </div>
-                  
-                  <!-- 3D Printers with brands -->
-                  <a class="dropdown-item" href="/category/3d-printers">3D Printers</a>
-                  <div class="dropdown-submenu">
-                    <a class="dropdown-item" href="#">3D Printer Brands</a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="/category/3d-printers/ultimaker">Ultimaker</a>
-                      <a class="dropdown-item" href="/category/3d-printers/formlabs">Formlabs</a>
-                      <a class="dropdown-item" href="/category/3d-printers/stratasys">Stratasys</a>
-                    </div>
-                  </div>
-                  
-                  <!-- Add more categories here -->
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/addproduct">Add Machine</a>
-              </li> 
-              <li class="nav-item">
-                <a class="nav-link" href="/myproducts">My prods</a>
-              </li>
-              <%}else{%>
-                <li class="nav-item">
-                  <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/register">Register</a>
-                </li>
-                <%}%>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/about">About Us</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/contact">Contact Us</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/allproducts">All Products</a>
-                  </li> 
-          </ul>
-          <%if(user){%>
-            <form class="form-inline my-2 my-lg-0" method="POST" action="/logout">
-              <button class="btn btn-danger" type="submit">Logout</button>
-            </form>
-            <%}%>
-        </div>
+          <% } else { %>
+            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+          <% } %>
+
+          <li class="nav-item"><a href="#" class="nav-link cta-btn">Get a Quote</a></li>
+        </ul>
       </div>
-    </nav>
-  </header>
+    </div>
+  </nav>
+</header>

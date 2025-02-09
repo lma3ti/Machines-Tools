@@ -1,165 +1,84 @@
 <%- include('parts/top.ejs') %>
-<br><br><br>
-<div class="container-fluid mt-5">
-    <div class="row">
-        <!-- Sidebar (Catégories) -->
-        <div class="col-md-3 sidebar">
-            <h4 class="text-center">Categories</h4>
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active" data-category="all">All Categories</a>
-                <% Object.keys(productsByCategory).forEach(category => { %>
-                    <a href="#" class="list-group-item list-group-item-action" data-category="<%= category %>"><%= category %></a>
-                <% }) %>
-            </div>
-        </div>
-
-        <!-- Contenu principal -->
-        <div class="col-md-9 main-content">
-            <div class="search-bar mb-4">
-                <input type="text" id="searchInput" placeholder="Search products..." class="form-control">
-            </div>
-
-            <% if (productsByCategory && Object.keys(productsByCategory).length > 0) { %>
-                <% for (let category in productsByCategory) { %>
-                    <h2 class="mt-4 mb-3 category-title category-section" data-category="<%= category %>"><%= category %></h2>
-                    <div class="row product-grid category-section" data-category="<%= category %>">
-                        <% productsByCategory[category].forEach(product => { %>
-                            <div class="col-md-4 product-card" data-category="<%= category %>">
-                                <div class="card shadow-sm">
-                                    <img src="/uploads/<%= product.image %>" class="card-img-top img-fluid" alt="<%= product.title %>">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><%= product.title %></h5>
-                                        <p class="card-text"><%= product.description %></p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="product-price">$<%= product.price %></span>
-                                            <a href="#" class="btn btn-primary"><i class="zmdi zmdi-shopping-basket"></i> Buy</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <% }) %>
-                    </div>
-                <% } %>
-            <% } else { %>
-                <p class="text-center mt-5">No products available.</p>
-            <% } %>
-        </div>
+ <!-- ***** Preloader Start ***** -->
+ <div id="preloader">
+    <div class="jumper">
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
+</div>  
+<!-- ***** Preloader End ***** -->
+<!-- Page Content -->
+<div class="page-heading products-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="text-content">
+          <h4>New Arrivals</h4>
+          <h2>Sixteen Products</h2>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<div class="products">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="filters">
+          <ul>
+            <li class="active" data-filter="*">All Products</li>
+            <!-- Dynamically create filters based on categories from the backend -->
+            <% Object.keys(productsByCategory).forEach(category => { %>
+              <li data-filter=".<%= category.replace(' ', '-').toLowerCase() %>"><%= category %></li>
+            <% }) %>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="filters-content">
+          <div class="row grid">
+            <!-- Dynamically populate product items by category -->
+            <% Object.keys(productsByCategory).forEach(category => { %>
+              <% productsByCategory[category].forEach(product => { %>
+                <div class="col-lg-4 col-md-4 all <%= category.replace(' ', '-').toLowerCase() %>">
+                  <div class="product-item">
+                    <a href="#"><img src="/uploads/<%= product.image %>" alt="<%= product.title %>"></a>
+                    <div class="down-content">
+                      <a href="#"><h4><%= product.title %></h4></a>
+                      <h6>$<%= product.price %></h6>
+                      <p><%= product.description %></p>
+                      <ul class="stars">
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                        <li><i class="fa fa-star"></i></li>
+                      </ul>
+                      <span>Reviews (<%= product.reviews %>)</span>
+                    </div>
+                  </div>
+                </div>
+              <% }) %>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <ul class="pages">
+          <li><a href="#">1</a></li>
+          <li class="active"><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <%- include('parts/buttom.ejs') %>
-
-<script>
-    document.getElementById("searchInput").addEventListener("input", filterProducts);
-    
-    document.querySelectorAll(".list-group-item").forEach(item => {
-        item.addEventListener("click", function(event) {
-            event.preventDefault();
-
-            // Changer la classe active
-            document.querySelectorAll(".list-group-item").forEach(link => link.classList.remove("active"));
-            this.classList.add("active");
-
-            let selectedCategory = this.getAttribute("data-category");
-            filterProducts(selectedCategory);
-        });
-    });
-
-    function filterProducts(selectedCategory = null) {
-        let searchText = document.getElementById("searchInput").value.toLowerCase();
-        selectedCategory = selectedCategory || document.querySelector(".list-group-item.active").getAttribute("data-category");
-
-        document.querySelectorAll(".product-card").forEach(card => {
-            let title = card.querySelector(".card-title").textContent.toLowerCase();
-            let category = card.getAttribute("data-category");
-
-            let matchesSearch = title.includes(searchText);
-            let matchesCategory = selectedCategory === "all" || category === selectedCategory;
-
-            card.style.display = matchesSearch && matchesCategory ? "block" : "none";
-        });
-
-        document.querySelectorAll(".category-section").forEach(section => {
-            let category = section.getAttribute("data-category");
-            let visibleProducts = document.querySelectorAll(`.product-card[data-category="${category}"]:not([style*="display: none"])`);
-
-            section.style.display = (selectedCategory === "all" || category === selectedCategory) && visibleProducts.length > 0 ? "block" : "none";
-        });
-    }
-</script>
-
-<style>
-    /* Sidebar */
-    .sidebar {
-        position: relative;
-        top: 80px;
-        height: calc(100vh - 80px);
-        overflow-y: auto;
-        background: #f8f9fa;
-        padding: 20px;
-        border-right: 2px solid #ddd;
-    }
-    
-    .list-group-item {
-        cursor: pointer;
-        border-radius: 5px;
-        margin-bottom: 5px;
-    }
-    
-    .list-group-item.active {
-        background-color: #007bff;
-        color: white;
-        font-weight: bold;
-    }
-
-    /* Main Content */
-    .main-content {
-        padding-left: 30px;
-    }
-
-    /* Products */
-    .product-grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-    }
-
-    .product-card {
-        max-width: 350px;
-    }
-
-    .card {
-        border-radius: 10px;
-        transition: transform 0.2s ease-in-out;
-    }
-
-    .card:hover {
-        transform: scale(1.05);
-    }
-
-    .product-price {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #007bff;
-    }
-
-    .category-title {
-        border-bottom: 2px solid #007bff;
-        display: inline-block;
-        padding-bottom: 5px;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .sidebar {
-            position: relative;
-            height: auto;
-            border-right: none;
-        }
-
-        .main-content {
-            padding-left: 0;
-        }
-    }
-</style>

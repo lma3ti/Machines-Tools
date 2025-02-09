@@ -1,5 +1,13 @@
 <%- include('parts/top.ejs')%>
-
+ <!-- ***** Preloader Start ***** -->
+ <div id="preloader">
+    <div class="jumper">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>  
+<!-- ***** Preloader End ***** -->
     <!-- Page Content -->
     <!-- Banner Starts Here -->
     
@@ -33,94 +41,85 @@
                 <div class="col-md-12">
                     <div class="section-heading">
                         <h2>Latest Products</h2>
-                        <a href="myproducts">view all products <i class="fa fa-angle-right"></i></a>
+                        <a href="products">view all products <i class="fa fa-angle-right"></i></a>
                     </div>
                 </div>
                 <% for(let product of products) {%>
                     <div class="col-md-4">
-                        <div class="product-item shadow">
-                          <a href="/products/<%= product._id %>">
-                            <img class="img-fluid" loading="lazy" src="uploads/<%= product.image %>" alt="<%= product.title %>">
-                          </a>
-                          <div class="down-content">
-                            <a href="/products/<%= product._id %>" class="text-decoration-none">
-                              <h4 class="title"><%= product.title %></h4>
-                            </a>
-                            <h6 class="price">$<%= product.price %></h6>
-                            <p><%= product.description %></p>
-                            <ul class="stars">
-                              
-                                <li><i class="fa fa-star"></i></li>
-                            
-                            
-                                <li><i class="fa fa-star-o"></i></li> <!-- Empty stars -->
-                              
-                            </ul>
-                            <span>Reviews </span>
-                            <button class="btn btn-primary mt-2">Add to Cart</button>
-                          </div>
+                      <div class="product-item ">
+                        <a href="/products/<%= product._id %>" ><img  src="uploads/<%= product.image %>" alt=""></a>
+                        <div class="down-content">
+                          <a href="/products/<%= product._id %>"  class="img-fluid" ><h4><%= product.title %></h4></a>
+                          <h6>$<%= product.price %></h6>
+                          <p><%= product.description %></p>
+                          <ul class="stars">
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                          </ul>
+                          <span>Reviews (24)</span>
                         </div>
                       </div>
-                      
+                    </div>
                     <% } %>
             </div>
         </div>
     </div>
-    <div class="best-features">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="section-heading">
-                        <h2>About our company</h2>
-                    </div>
+    <!-- About OULAD ABDERRAHMAN Section -->
+<div class="best-features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-heading">
+                    <h2>About OULAD ABDERRAHMAN</h2>
                 </div>
-                <div class="col-md-6">
-                    <div class="left-content">
-                        <h4>Looking for the best products?</h4>
-                        <p><a rel="nofollow" " target="_parent">This
-                                template</a> is free to use for your business websites. However, you have no permission
-                            to redistribute the downloadable ZIP file on any template collection website. <a
-                                rel="nofollow" >Contact us</a> for more info.</p>
-                        <ul class="featured-list">
-                            <li><a href="#">Lorem ipsum dolor sit amet</a></li>
-                            <li><a href="#">Consectetur an adipisicing elit</a></li>
-                            <li><a href="#">It aquecorporis nulla aspernatur</a></li>
-                            <li><a href="#">Corporis, omnis doloremque</a></li>
-                            <li><a href="#">Non cum id reprehenderit</a></li>
-                        </ul>
-                        <a href="about.html" class="filled-button">Read More</a>
-                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="left-content">
+                    <h4>Learn More About Our Company</h4>
+                    <p>OULAD ABDERRAHMAN is committed to providing high-quality industrial products tailored to meet the specific needs of our clients. With years of experience and a strong focus on innovation, we aim to deliver solutions that drive success for your business.</p>
+                    <ul class="featured-list">
+                        <li><a href="#">Expert in CNC Machines</a></li>
+                        <li><a href="#">Leaders in Industrial Tools</a></li>
+                        <li><a href="#">Pioneers in 3D Printing Technology</a></li>
+                        <li><a href="#">Advanced Milling and Turning Equipment</a></li>
+                        <li><a href="#">Precision Engineering at its Best</a></li>
+                    </ul>
+                    <a href="about" class="filled-button">Learn More About Us</a>
                 </div>
-                <div class="col-md-6">
-                    <div class="right-image">
-                        <img src="images/feature-image.jpg" alt="">
-                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="right-image">
+                    <img src="images/00000008.jpg" alt="About Our Company">
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
-    <div class="call-to-action">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="inner-content">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h4>Creative &amp; Unique <em>Sixteen</em> Products</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque corporis amet elite
-                                    author nulla.</p>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="#" class="filled-button">Purchase Now</a>
-                            </div>
+
+<div class="call-to-action">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="inner-content">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4>Discover Premium Industrial <em>Machines & Tools</em></h4>
+                            <p>Looking for top-of-the-line industrial products? From CNC machines to precision tools, we offer high-quality solutions tailored for your business needs. Explore our catalog and take your operations to the next level.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="allproducts" class="filled-button">Browse Our Products</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
   
     <%- include('parts/buttom.ejs')%>
