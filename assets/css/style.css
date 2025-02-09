@@ -1,0 +1,99 @@
+
+  /* General Styles */
+  body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+
+}
+
+a {
+    text-decoration: none;
+    color: #1F4E79; /* Deep blue color */
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #FFFFFF; /* White background */
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo a {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1F4E79;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.menu li {
+    position: relative;
+}
+
+.menu a {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1F4E79;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu a:hover {
+    background-color: #00B4D8; /* Cyan on hover */
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+/* Dropdown Menu */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    z-index: 1000;
+    border-radius: 5px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content li {
+    padding: 10px 15px;
+}
+
+.dropdown-content li a {
+    font-size: 16px;
+    color: #333333;
+}
+
+.dropdown-content li a:hover {
+    background-color: #00B4D8;
+    color: #FFFFFF;
+}
+
+/* Call to Action Button */
+.cta-btn {
+    background-color: #00B4D8;
+    color: #FFFFFF;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+    background-color: #008C9E;
+}
