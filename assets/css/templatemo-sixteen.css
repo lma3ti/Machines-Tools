@@ -412,60 +412,66 @@ body {
 	  font-weight: 700;
 	  color: #2e78c4;
   }
+  /* Styling for the product item */
+.product-item {
+	border: 1px solid #eee;
+	margin-bottom: 30px;
+	transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth hover effect */
+  }
   
-  .product-item {
-	  border: 1px solid #eee;
-	  margin-bottom: 30px;
+  .product-item:hover {
+	cursor: pointer; /* Show pointer cursor on hover */
+	transform: translateY(-10px); /* Lift the item on hover */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
   }
   
   .product-item .down-content {
-	  padding: 30px;
-	  position: relative;
+	padding: 30px;
+	position: relative;
   }
   
   .product-item img {
-	  width: 100%;
-	  height: 200px;/*added*/
-	  overflow: hidden;
-	   object-fit: cover;/*not stretched */
+	width: 100%;
+	height: 200px; /* Maintain height */
+	overflow: hidden;
+	object-fit: cover; /* Ensure image is not stretched */
   }
   
   .product-item .down-content h4 {
-	  font-size: 17px;
-	  color: #1a6692;
-	  margin-bottom: 20px;
+	font-size: 17px;
+	color: #1a6692;
+	margin-bottom: 20px;
   }
   
   .product-item .down-content h6 {
-	  position: absolute;
-	  top: 30px;
-	  right: 30px;
-	  font-size: 18px;
-	  color: #121212;
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	font-size: 18px;
+	color: #121212;
   }
   
   .product-item .down-content p {
-	  margin-bottom: 20px;
+	margin-bottom: 20px;
   }
   
   .product-item .down-content ul li {
-	  display: inline-block;
+	display: inline-block;
   }
   
   .product-item .down-content ul li i {
-	  color: #2e78c4;
-	  font-size: 14px;
+	color: #2e78c4;
+	font-size: 14px;
   }
   
   .product-item .down-content span {
-	  position: absolute;
-	  right: 30px;
-	  bottom: 30px;
-	  font-size: 13px;
-	  color: #2e78c4;
-	  font-weight: 500;
+	position: absolute;
+	right: 30px;
+	bottom: 30px;
+	font-size: 13px;
+	color: #2e78c4;
+	font-weight: 500;
   }
-  
   
   
   

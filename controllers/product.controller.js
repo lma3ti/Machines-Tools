@@ -9,12 +9,27 @@ exports.getAllProductsController = (req, res, next) => {
 };
 
 // Get one product details
+
 exports.getOneProductDetailsController = (req, res, next) => {
   let id = req.params.id;
-  ProductModel.getOneProductDetails(id).then((product) => {
-    res.render("details", { product: product, user: req.session.user });
-  });
+  ProductModel.getOneProductDetails(id)
+      .then((product) => {
+          if (req.session.user) {
+              // If authenticated, render the admin product details page (details.ejs)
+              res.render('details', { product });
+          } else {
+              // If not authenticated, render the public product details page (product-details.ejs)
+              res.render('product-details', { product });
+          }
+      })
+      .catch((err) => {
+          console.error("Error fetching product:", err);
+          res.status(500).send("Error loading product details");
+      });
 };
+
+
+
 
 // Get add product page with categories
 exports.getAddProductController = (req, res, next) => {
@@ -35,15 +50,25 @@ exports.getAddProductController = (req, res, next) => {
 
 // Post a new product (with category)
 exports.postAddProductController = (req, res, next) => {
-  const { title, description, author, price, category } = req.body; // Capture category from form
+  const { title, description, author, price, category, manufacturer, model, condition, stock, warranty, document } = req.body; // Capture category from form
+  
+  // Use req.file to retrieve the uploaded image
+  const image = req.file ? req.file.filename : ''; // Handle single image upload
+  
   ProductModel.postDataProductModel(
     title,
     description,
     author,
     price,
-    req.file ? req.file.filename : null,
+    image, // Pass single image filename instead of an array
     req.session.user.id, // Using user ID from session
-    category // Pass category ID to the model
+    category, // Pass category ID to the model
+    manufacturer,
+    model, 
+    condition, 
+    stock, 
+    warranty, 
+    document
   )
     .then((msg) => {
       req.flash("Successmessage", msg);
@@ -54,6 +79,8 @@ exports.postAddProductController = (req, res, next) => {
       res.redirect("/addproduct");
     });
 };
+
+
 
 // Get my products page
 exports.getMyProductsPage = (req, res, next) => {
