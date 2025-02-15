@@ -20,8 +20,6 @@
         <div class="container">
           <h2 class="mb-4">Add Product</h2>
           
-       
-
           <!-- Add Product Form -->
           <form action="/addproduct" method="POST" enctype="multipart/form-data">
             <div class="form-group">
@@ -38,31 +36,63 @@
             </div>
             <div class="form-group">
               <label for="image">Image</label>
-              <input type="file" class="form-control" name="image" id="image" required>
+              <input type="file" class="form-control" name="image" id="image"  required>
             </div>
             
-           <div class="form-group">
+            <div class="form-group">
               <label for="description">Description</label>
               <input type="text" class="form-control" name="description" id="description" required>
-           </div>
-           <div class="form-group">
-            <label for="category">Category:</label>
-            <select id="category" name="category" class="form-control" required>
-              <option value="">Select Category</option>
-              <% categories.forEach(category => { %>
-                <option value="<%= category._id %>"><%= category.name %></option>
-              <% }) %>
-            </select>
-          </div>
+            </div>
+            
+            <!-- New Fields for Machine Details -->
+            <div class="form-group">
+              <label for="manufacturer">Manufacturer</label>
+              <input type="text" class="form-control" name="manufacturer" id="manufacturer" required>
+            </div>
+            <div class="form-group">
+              <label for="model">Model</label>
+              <input type="text" class="form-control" name="model" id="model" required>
+            </div>
+            <div class="form-group">
+              <label for="condition">Condition</label>
+              <select id="condition" name="condition" class="form-control" required>
+                <option value="">Select Condition</option>
+                <option value="New">New</option>
+                <option value="Used">Used</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="stock">Stock</label>
+              <input type="number" class="form-control" name="stock" id="stock" required>
+            </div>
+            <div class="form-group">
+              <label for="warranty">Warranty</label>
+              <input type="text" class="form-control" name="warranty" id="warranty">
+            </div>
+            <div class="form-group">
+              <label for="document">Technical Document</label>
+              <input type="file" class="form-control" name="document" id="document">
+            </div>
+
+            <!-- Category Selection -->
+            <div class="form-group">
+              <label for="category">Category:</label>
+              <select id="category" name="category" class="form-control" required>
+                <option value="">Select Category</option>
+                <% categories.forEach(category => { %>
+                  <option value="<%= category._id %>"><%= category.name %></option>
+                <% }) %>
+              </select>
+            </div>
+
             <button type="submit" class="btn btn-primary">Add Product</button>
           </form>
         </div>
       </div>
 
-      
     </div>
   </div>
   <%- include('partsadmin/footer') %>
 </div>
 
-<%- include('partsadmin/bottom') %> 
+<%- include('partsadmin/bottom') %>

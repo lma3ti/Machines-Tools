@@ -1,0 +1,252 @@
+<%- include('parts/top.ejs') %>
+
+<!-- ***** Preloader Start ***** -->
+<div id="preloader">
+  <div class="jumper">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+<!-- ***** Preloader End ***** -->
+
+<br/><br/><br/>
+
+<!-- Product Details Section -->
+<section class="product-details py-5" style="margin-top: 100px;">
+  <div class="container">
+    <div class="row">
+      <!-- Product Images Column -->
+      <div class="col-md-6">
+        <% if (product.images && product.images.length > 1) { %>
+          <!-- Bootstrap Carousel for Multiple Images -->
+          <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+            <!-- Carousel Indicators -->
+            <div class="carousel-indicators">
+              <% product.images.forEach((img, index) => { %>
+                <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="<%= index %>" class="<%= index === 0 ? 'active' : '' %>" aria-current="true" aria-label="Slide <%= index + 1 %>"></button>
+              <% }) %>
+            </div>
+
+            <!-- Carousel Inner (Slides) -->
+            <div class="carousel-inner">
+              <% product.images.forEach((img, index) => { %>
+                <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-bs-img="/uploads/<%= img %>">
+                    <img src="/uploads/<%= img %>" class="d-block w-100 img-fluid rounded shadow" alt="<%= product.title %> Image <%= index + 1 %>">
+                  </a>
+                </div>
+              <% }) %>
+            </div>
+
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        <% } else { %>
+          <!-- If only one image or no images array, display single image -->
+          <div class="product-images">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-bs-img="/uploads/<%= product.image %>">
+              <img src="/uploads/<%= product.image %>" alt="<%= product.title %>" class="img-fluid rounded shadow">
+            </a>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Product Information Column -->
+      <div class="col-md-6">
+        <div class="product-info">
+          <h1 class="display-4"><%= product.title %></h1>
+          <p class="lead text-muted">by <%= product.author %></p>
+          <h3 class="text-primary">$<%= product.price %></h3>
+          <hr>
+
+          <!-- Machine Specific Information -->
+          <% if (product.manufacturer) { %>
+            <p><strong>Manufacturer:</strong> <%= product.manufacturer %></p>
+          <% } %>
+          <% if (product.model) { %>
+            <p><strong>Model:</strong> <%= product.model %></p>
+          <% } %>
+          <% if (product.Condition) { %>
+            <p><strong>Condition:</strong> <%= product.condition %></p>
+          <% } %>
+          <% if (product.warranty) { %>
+            <p><strong>Warranty:</strong> <%= product.warranty %> Year</p>
+          <% } %>
+          <% if (product.stock) { %>
+            <p><strong>In stock:</strong> <%= product.stock %> Year</p>
+          <% } %>
+          <% if (product.technicalSpecifications) { %>
+            <h4>Technical Specifications</h4>
+            <ul>
+              <% product.technicalSpecifications.forEach(spec => { %>
+                <li><%= spec %></li>
+              <% }) %>
+            </ul>
+          <% } %>
+
+          <hr>
+
+          <h4>Description</h4>
+          <p><%= product.description %></p>
+
+
+          <div class="mt-4">
+            <a href="#" class="filled-button">Add to Cart</a>
+            <a href="/allproducts" class="btn btn-outline-secondary ml-2">Back to Catalog</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- New Features Section -->
+<section class="feature-area inner py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Key Features</h2>
+    <div class="row">
+      <!-- Feature 1 -->
+      <div class="col-md-3 mb-4">
+        <div class="feature-card p-3 shadow rounded">
+          <div class="icon-container mb-3 text-center">
+            <i class="fa fa-check-circle fa-3x text-primary"></i> <!-- Example icon -->
+          </div>
+          <div class="txt text-center">
+            <strong>Reliability</strong>
+            <p>Built to last with exceptional durability.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="col-md-3 mb-4">
+        <div class="feature-card p-3 shadow rounded">
+          <div class="icon-container mb-3 text-center">
+            <i class="fa fa-bolt fa-3x text-primary"></i> <!-- Example icon -->
+          </div>
+          <div class="txt text-center">
+            <strong>High Productivity</strong>
+            <p>Maximize efficiency with fast performance.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="col-md-3 mb-4">
+        <div class="feature-card p-3 shadow rounded">
+          <div class="icon-container mb-3 text-center">
+            <i class="fa fa-cogs fa-3x text-primary"></i> <!-- Example icon -->
+          </div>
+          <div class="txt text-center">
+            <strong>Excellent Machining</strong>
+            <p>Superior quality with precise machining.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="col-md-3 mb-4">
+        <div class="feature-card p-3 shadow rounded">
+          <div class="icon-container mb-3 text-center">
+            <i class="fa fa-wrench fa-3x text-primary"></i> <!-- Example icon -->
+          </div>
+          <div class="txt text-center">
+            <strong>Easy Maintenance</strong>
+            <p>Quick and easy maintenance for longer life.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Highlights Section -->
+<!-- Highlights Section -->
+<section class="highlight-area inner type2 py-5">
+  <div class="container">
+    <h3 class="tit active text-center mb-4">Highlights</h3>
+    <div class="box">
+      <!-- Highlight 1 -->
+      <div class="list scrollMotion active d-flex align-items-center mb-4">
+        <div class="imgCont">
+          <div class="img">
+            <img alt="Optimised high performance" src="/images/feature-image.jpg" class="img-fluid rounded shadow">
+          </div>
+        </div>
+        <div class="txtCont ms-4">
+          <div class="posTxt">
+            <p class="subj">Optimised high performance through high speed and high power spindles</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Highlight 2 -->
+      <div class="list scrollMotion active d-flex align-items-center mb-4">
+        <div class="txtCont ms-4">
+          <div class="posTxt">
+            <p class="subj">Shorter machining cycle times via a powerful spindle and structure</p>
+          </div>
+        </div>
+        <div class="imgCont">
+          <div class="img">
+            <img alt="Shorter machining cycle times" src="/images/feature-image.jpg" class="img-fluid rounded shadow">
+          </div>
+        </div>
+      </div>
+
+      <!-- Highlight 3 -->
+      <div class="list scrollMotion d-flex align-items-center mb-4">
+        <div class="imgCont">
+          <div class="img">
+            <img alt="Improved user convenience" src="/images/feature-image.jpg" class="img-fluid rounded shadow">
+          </div>
+        </div>
+        <div class="txtCont ms-4">
+          <div class="posTxt">
+            <p class="subj">Improved user convenience</p>
+            <p class="dotTxt"><span>Ergonomic operation panel</span></p>
+            <p class="dotTxt"><span>USB port and operator panel rotation</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal to display clicked image -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel">Product Image</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImage" src="" class="img-fluid rounded shadow" alt="Product Image">
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('parts/buttom.ejs') %>
+
+<script>
+  // Add event listener for opening the image modal and updating the image source
+  const modalImage = document.getElementById('modalImage');
+  const imageLinks = document.querySelectorAll('[data-bs-target="#imageModal"]');
+  
+  imageLinks.forEach(link => {
+    link.addEventListener('click', function(event) {
+      const imageUrl = this.getAttribute('data-bs-img');
+      modalImage.src = imageUrl;
+    });
+  });
+</script>
+

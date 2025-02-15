@@ -7,9 +7,16 @@ var schemaProduct = mongoose.Schema({
   description: { type: String },
   author: { type: String, required: true },
   price: { type: Number, required: true },
-  image: { type: String },
+  image: { type: String }, // Single image field
   userId: { type: String, required: true },
   category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true }, // Add category reference
+  // New fields for machines
+  manufacturer: { type: String, required: true },  // Manufacturer
+  model: { type: String, required: true },        // Model number or name
+  condition: { type: String, enum: ['New', 'Used'], required: true },  // New or Used condition
+  stock: { type: Number, required: true },        // Stock quantity
+  warranty: { type: String },                     // Warranty details (optional)
+  document: { type: String },                     // Path to uploaded technical document (if any)
 });
 
 // Create the Product model
@@ -44,16 +51,22 @@ exports.getAllProducts = () => {
 };
 
 // Function to post a new product
-exports.postDataProductModel = (title, description, author, price, image, userId, category) => {
+exports.postDataProductModel = (title, description, author, price, image, userId, category, manufacturer, model, condition, stock, warranty, document) => {
   return new Promise((resolve, reject) => {
     let product = new Product({
       title: title,
       description: description,
       author: author,
       price: price,
-      image: image,
+      image: image, // Single image
       userId: userId,
-      category: category  // Add the category to the product
+      category: category,  // Add the category to the product
+      manufacturer: manufacturer,
+      model: model,
+      condition: condition,
+      stock: stock,
+      warranty: warranty,
+      document: document, 
     });
 
     product.save()
@@ -99,11 +112,11 @@ exports.getPageUpdateProductModel = (id) => {
 };
 
 // Function to update a product's information
-exports.postUpdateProductModel = (productId, title, description, author, price, image, userId, category) => {
+exports.postUpdateProductModel = (productId, title, description, author, price, image, userId, category, manufacturer, model, condition, stock, warranty, document) => {
   return new Promise((resolve, reject) => {
     Product.updateOne(
       { _id: productId },
-      { title: title, description: description, author: author, price: price, image: image, userId: userId, category: category }
+      { title: title, description: description, author: author, price: price, image: image, userId: userId, category: category, manufacturer: manufacturer, model: model, condition: condition, stock: stock, warranty: warranty, document: document  }
     )
       .then(() => resolve('updated !'))
       .catch(err => reject(err));

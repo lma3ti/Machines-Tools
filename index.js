@@ -32,6 +32,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 
+
 // Setup MongoDB Store for Sessions
 const store = new MongoDbStore({
   uri: dbUrl,
