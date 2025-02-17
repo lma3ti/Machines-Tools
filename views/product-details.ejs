@@ -18,44 +18,29 @@
     <div class="row">
       <!-- Product Images Column -->
       <div class="col-md-6">
-        <% if (product.images && product.images.length > 1) { %>
-          <!-- Bootstrap Carousel for Multiple Images -->
-          <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-            <!-- Carousel Indicators -->
-            <div class="carousel-indicators">
-              <% product.images.forEach((img, index) => { %>
-                <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="<%= index %>" class="<%= index === 0 ? 'active' : '' %>" aria-current="true" aria-label="Slide <%= index + 1 %>"></button>
-              <% }) %>
-            </div>
-
-            <!-- Carousel Inner (Slides) -->
-            <div class="carousel-inner">
-              <% product.images.forEach((img, index) => { %>
-                <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
-                  <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-bs-img="/uploads/<%= img %>">
-                    <img src="/uploads/<%= img %>" class="d-block w-100 img-fluid rounded shadow" alt="<%= product.title %> Image <%= index + 1 %>">
-                  </a>
-                </div>
-              <% }) %>
-            </div>
-
-            <!-- Carousel Controls -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
+        <% if (Array.isArray(product.image) && product.image.length > 1) { %>
+          <!-- Thumbnails for Image Selection -->
+          <div class="row mb-3">
+            <% product.image.forEach((img, index) => { %>
+              <div class="col-3">
+                <img src="/uploads/<%= img %>" class="img-fluid rounded shadow thumbnail-img" alt="<%= product.title %> Image <%= index + 1 %>" data-bs-img="/uploads/<%= img %>">
+              </div>
+            <% }) %>
+          </div>
+          
+          <!-- Main Product Image Display -->
+          <div class="main-image">
+            <img id="mainImage" src="/uploads/<%= product.image[0] %>" class="img-fluid rounded shadow" alt="<%= product.title %>">
+          </div>
+          
+        <% } else if (product.image && typeof product.image === 'string') { %>
+          <!-- If there's only one image (as a string) -->
+          <div class="product-images">
+            <img src="/uploads/<%= product.image %>" alt="<%= product.title %>" class="img-fluid rounded shadow" id="mainImage">
           </div>
         <% } else { %>
-          <!-- If only one image or no images array, display single image -->
-          <div class="product-images">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-bs-img="/uploads/<%= product.image %>">
-              <img src="/uploads/<%= product.image %>" alt="<%= product.title %>" class="img-fluid rounded shadow">
-            </a>
-          </div>
+          <!-- If no images available -->
+          <p>No image available.</p>
         <% } %>
       </div>
 
@@ -74,14 +59,14 @@
           <% if (product.model) { %>
             <p><strong>Model:</strong> <%= product.model %></p>
           <% } %>
-          <% if (product.Condition) { %>
+          <% if (product.condition) { %>
             <p><strong>Condition:</strong> <%= product.condition %></p>
           <% } %>
           <% if (product.warranty) { %>
             <p><strong>Warranty:</strong> <%= product.warranty %> Year</p>
           <% } %>
           <% if (product.stock) { %>
-            <p><strong>In stock:</strong> <%= product.stock %> Year</p>
+            <p><strong>In stock:</strong> <%= product.stock %></p>
           <% } %>
           <% if (product.technicalSpecifications) { %>
             <h4>Technical Specifications</h4>
@@ -96,7 +81,6 @@
 
           <h4>Description</h4>
           <p><%= product.description %></p>
-
 
           <div class="mt-4">
             <a href="#" class="filled-button">Add to Cart</a>
@@ -167,52 +151,50 @@
     </div>
   </div>
 </section>
-<!-- Highlights Section -->
+
 <!-- Highlights Section -->
 <section class="highlight-area inner type2 py-5">
   <div class="container">
     <h3 class="tit active text-center mb-4">Highlights</h3>
     <div class="box">
       <!-- Highlight 1 -->
-      <div class="list scrollMotion active d-flex align-items-center mb-4">
-        <div class="imgCont">
-          <div class="img">
-            <img alt="Optimised high performance" src="/images/feature-image.jpg" class="img-fluid rounded shadow">
-          </div>
-        </div>
+      <div class="list scrollMotion d-flex flex-wrap align-items-center mb-4">
         <div class="txtCont ms-4">
           <div class="posTxt">
-            <p class="subj">Optimised high performance through high speed and high power spindles</p>
+            <p class="subj">Optimized high performance through high-speed and high-power spindles</p>
+          </div>
+        </div>
+        <div class="imgCont">
+          <div class="img">
+            <img alt="High Performance Spindle" src="/images/feature-image.jpg" class="img-fluid rounded shadow">
           </div>
         </div>
       </div>
 
-      <!-- Highlight 2 -->
-      <div class="list scrollMotion active d-flex align-items-center mb-4">
-        <div class="txtCont ms-4">
+      <!-- Highlight 2 - Swapped Text/Image Position -->
+      <div class="list scrollMotion d-flex flex-wrap align-items-center flex-row-reverse mb-4">
+        <div class="txtCont me-4">
           <div class="posTxt">
             <p class="subj">Shorter machining cycle times via a powerful spindle and structure</p>
           </div>
         </div>
         <div class="imgCont">
           <div class="img">
-            <img alt="Shorter machining cycle times" src="/images/feature-image.jpg" class="img-fluid rounded shadow">
+            <img alt="Faster Machining Cycles" src="/images/product_02.jpg" class="img-fluid rounded shadow">
           </div>
         </div>
       </div>
 
       <!-- Highlight 3 -->
-      <div class="list scrollMotion d-flex align-items-center mb-4">
-        <div class="imgCont">
-          <div class="img">
-            <img alt="Improved user convenience" src="/images/feature-image.jpg" class="img-fluid rounded shadow">
-          </div>
-        </div>
+      <div class="list scrollMotion d-flex flex-wrap align-items-center mb-4">
         <div class="txtCont ms-4">
           <div class="posTxt">
-            <p class="subj">Improved user convenience</p>
-            <p class="dotTxt"><span>Ergonomic operation panel</span></p>
-            <p class="dotTxt"><span>USB port and operator panel rotation</span></p>
+            <p class="subj">Improved user convenience with an ergonomic operation panel</p>
+          </div>
+        </div>
+        <div class="imgCont">
+          <div class="img">
+            <img alt="User Convenience" src="/images/product_01.jpg" class="img-fluid rounded shadow">
           </div>
         </div>
       </div>
@@ -240,7 +222,7 @@
 <script>
   // Add event listener for opening the image modal and updating the image source
   const modalImage = document.getElementById('modalImage');
-  const imageLinks = document.querySelectorAll('[data-bs-target="#imageModal"]');
+  const imageLinks = document.querySelectorAll('[data-bs-toggle="modal"]');
   
   imageLinks.forEach(link => {
     link.addEventListener('click', function(event) {
@@ -250,3 +232,39 @@
   });
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const scrollElements = document.querySelectorAll('.scrollMotion');
+
+    const observerOptions = {
+      root: null, // viewport
+      threshold: 0.2 // trigger when 20% of the element is visible
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          // Optionally, unobserve the element after adding the class
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    scrollElements.forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+<script>
+  // Add event listener for image thumbnail selection
+  const thumbnails = document.querySelectorAll('.thumbnail-img');
+  const mainImage = document.getElementById('mainImage');
+  
+  thumbnails.forEach(thumbnail => {
+    thumbnail.addEventListener('click', function() {
+      const newImageSrc = this.getAttribute('data-bs-img');
+      mainImage.src = newImageSrc;
+    });
+  });
+</script>

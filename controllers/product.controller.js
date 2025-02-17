@@ -50,19 +50,22 @@ exports.getAddProductController = (req, res, next) => {
 
 // Post a new product (with category)
 exports.postAddProductController = (req, res, next) => {
-  const { title, description, author, price, category, manufacturer, model, condition, stock, warranty, document } = req.body; // Capture category from form
+  const { title, description, author, price, category, manufacturer, model, condition, stock, warranty } = req.body;
   
-  // Use req.file to retrieve the uploaded image
-  const image = req.file ? req.file.filename : ''; // Handle single image upload
+  // Retrieve multiple image filenames from req.files.images, if available
+  const images = req.files.images ? req.files.images.map(file => file.filename) : [];
   
+  // Retrieve the document filename from req.files.document, if available
+  const document = req.files.document && req.files.document.length > 0 ? req.files.document[0].filename : '';
+
   ProductModel.postDataProductModel(
     title,
     description,
     author,
     price,
-    image, // Pass single image filename instead of an array
+    images,       // Pass an array of image filenames (update your model accordingly)
     req.session.user.id, // Using user ID from session
-    category, // Pass category ID to the model
+    category,
     manufacturer,
     model, 
     condition, 
@@ -75,10 +78,13 @@ exports.postAddProductController = (req, res, next) => {
       res.redirect("/myproducts");
     })
     .catch((err) => {
-      req.flash("Errormessage", err);
+      console.error("Product Upload Error:", err);  // Log the full error in the terminal
+      req.flash("Errormessage", err.message || "An unknown error occurred.");
       res.redirect("/addproduct");
     });
 };
+
+
 
 
 
