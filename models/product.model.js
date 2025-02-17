@@ -7,7 +7,7 @@ var schemaProduct = mongoose.Schema({
   description: { type: String },
   author: { type: String, required: true },
   price: { type: Number, required: true },
-  image: { type: String }, // Single image field
+  image: [{ type: String, required: true }], // Single image field
   userId: { type: String, required: true },
   category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true }, // Add category reference
   // New fields for machines
