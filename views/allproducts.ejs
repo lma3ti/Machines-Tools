@@ -72,23 +72,29 @@
         </div>
       </div>
 
-      <!-- Pagination -->
-      <div class="col-md-12 mt-4">
-        <ul class="pagination justify-content-center">
-          <% for (let i = 1; i <= 10; i++) { %> <!-- We can make this dynamic soon -->
-            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-              <a class="page-link" href="/allproducts?page=<%= i %>"><%= i %></a>
+      <!-- Dynamic Pagination -->
+      <div class="col-md-12">
+        <ul class="pages">
+          <% if (currentPage > 1) { %>
+            <li><a href="?page=<%= currentPage - 1 %>">&laquo; Prev</a></li>
+          <% } %>
+      
+          <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="<%= currentPage === i ? 'active' : '' %>">
+              <a href="?page=<%= i %>"><%= i %></a>
             </li>
           <% } %>
-          <li class="page-item">
-            <a class="page-link" href="/allproducts?page=<%= currentPage + 1 %>">
-              <i class="fa fa-angle-double-right"></i>
-            </a>
-          </li>
+      
+          <% if (currentPage < totalPages) { %>
+            <li><a href="?page=<%= currentPage + 1 %>">Next &raquo;</a></li>
+          <% } %>
         </ul>
       </div>
+      
+
     </div>
   </div>
 </div>
 
 <%- include('parts/buttom.ejs') %>
+

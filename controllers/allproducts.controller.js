@@ -1,30 +1,41 @@
-const Product = require("../models/product.model");
+const { Product } = require("../models/product.model");
 
-exports.getPageallproducts = (req, res, next) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = 12; // Products per page
-  const skip = (page - 1) * limit;
 
-  Product.getAllProducts(skip, limit)
-    .then(products => {
-      const productsByCategory = {};
+exports.getPageallproducts = async (req, res, next) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 6; // products per page
+    const skip = (page - 1) * limit;
 
-      products.forEach(product => {
-        const categoryName = product.category ? product.category.name : "Uncategorized";
-        if (!productsByCategory[categoryName]) {
-          productsByCategory[categoryName] = [];
-        }
-        productsByCategory[categoryName].push(product);
-      });
+    const [products, totalProducts] = await Promise.all([
+      Product.find({})
+        .populate('category')
+        .skip(skip)
+        .limit(limit),
+      Product.countDocuments()
+    ]);
 
-      res.render("allproducts", {
-        user: req.session.user,
-        productsByCategory,
-        currentPage: page
-      });
-    })
-    .catch(err => {
-      console.error("Error fetching products:", err);
-      res.status(500).send("Error loading products");
+    // Group products by category
+    const productsByCategory = {};
+    products.forEach(product => {
+      const categoryName = product.category ? product.category.name : "Uncategorized";
+      if (!productsByCategory[categoryName]) {
+        productsByCategory[categoryName] = [];
+      }
+      productsByCategory[categoryName].push(product);
     });
+
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    res.render("allproducts", {
+      user: req.session.user,
+      productsByCategory,
+      currentPage: page,
+      totalPages
+    });
+
+  } catch (err) {
+    console.error("Error fetching products:", err);
+    res.status(500).send("Error loading products");
+  }
 };

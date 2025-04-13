@@ -89,3 +89,4 @@ exports.postUpdateProductModel = (productId, title, description, author, price, 
     { title, description, author, price, image, userId, category, manufacturer, model, condition, stock, warranty, document }
   );
 };
+exports.Product = Product;
