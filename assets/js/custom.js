@@ -32,70 +32,10 @@ jQuery( document ).ready(function( $ ) {
             $("header").removeClass("background-header");
           }
         });
-        if ($('.owl-clients').length) {
-            $('.owl-clients').owlCarousel({
-                loop: true,
-                nav: false,
-                dots: true,
-                items: 1,
-                margin: 30,
-                autoplay: false,
-                smartSpeed: 700,
-                autoplayTimeout: 6000,
-                responsive: {
-                    0: {
-                        items: 1,
-                        margin: 0
-                    },
-                    460: {
-                        items: 1,
-                        margin: 0
-                    },
-                    576: {
-                        items: 3,
-                        margin: 20
-                    },
-                    992: {
-                        items: 5,
-                        margin: 30
-                    }
-                }
-            });
-        }
-		if ($('.owl-testimonials').length) {
-            $('.owl-testimonials').owlCarousel({
-                loop: true,
-                nav: false,
-                dots: true,
-                items: 1,
-                margin: 30,
-                autoplay: false,
-                smartSpeed: 700,
-                autoplayTimeout: 6000,
-                responsive: {
-                    0: {
-                        items: 1,
-                        margin: 0
-                    },
-                    460: {
-                        items: 1,
-                        margin: 0
-                    },
-                    576: {
-                        items: 2,
-                        margin: 20
-                    },
-                    992: {
-                        items: 2,
-                        margin: 30
-                    }
-                }
-            });
-        }
         if ($('.owl-banner').length) {
             $('.owl-banner').owlCarousel({
                 loop: true,
-                nav: false,
+                nav: true,  // Enable next and prev buttons for the banner carousel
                 dots: true,
                 items: 1,
                 margin: 0,
@@ -122,6 +62,70 @@ jQuery( document ).ready(function( $ ) {
                 }
             });
         }
+        
+        // Other carousels like .owl-clients and .owl-testimonials will not have nav enabled
+        if ($('.owl-clients').length) {
+            $('.owl-clients').owlCarousel({
+                loop: false,
+                nav: false,  // No next/prev buttons here
+                dots: false,
+                items: 1,
+                margin: 30,
+                autoplay: false,
+                smartSpeed: 700,
+                autoplayTimeout: 6000,
+                responsive: {
+                    0: {
+                        items: 1,
+                        margin: 0
+                    },
+                    460: {
+                        items: 1,
+                        margin: 0
+                    },
+                    576: {
+                        items: 3,
+                        margin: 20
+                    },
+                    992: {
+                        items: 5,
+                        margin: 30
+                    }
+                }
+            });
+        }
+        
+        if ($('.owl-testimonials').length) {
+            $('.owl-testimonials').owlCarousel({
+                loop: false,
+                nav: false,  // No next/prev buttons here as well
+                dots: false,
+                items: 1,
+                margin: 30,
+                autoplay: false,
+                smartSpeed: 700,
+                autoplayTimeout: 6000,
+                responsive: {
+                    0: {
+                        items: 1,
+                        margin: 0
+                    },
+                    460: {
+                        items: 1,
+                        margin: 0
+                    },
+                    576: {
+                        items: 2,
+                        margin: 20
+                    },
+                    992: {
+                        items: 2,
+                        margin: 30
+                    }
+                }
+            });
+        }
+        
 
         $(".Modern-Slider").slick({
             autoplay:true,

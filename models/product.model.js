@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Category = require("./category.model");  // Import the Category model
+const Category = require("./category.model");
 
 // Define the schema for the "product" collection
 var schemaProduct = mongoose.Schema({
@@ -7,118 +7,85 @@ var schemaProduct = mongoose.Schema({
   description: { type: String },
   author: { type: String, required: true },
   price: { type: Number, required: true },
-  image: [{ type: String, required: true }], // Single image field
+  image: [{ type: String, required: true }], // Array of images
   userId: { type: String, required: true },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true }, // Add category reference
-  // New fields for machines
-  manufacturer: { type: String, required: true },  // Manufacturer
-  model: { type: String, required: true },        // Model number or name
-  condition: { type: String, enum: ['New', 'Used'], required: true },  // New or Used condition
-  stock: { type: Number, required: true },        // Stock quantity
-  warranty: { type: String },                     // Warranty details (optional)
-  document: { type: String },                     // Path to uploaded technical document (if any)
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
+  manufacturer: { type: String, required: true },
+  model: { type: String, required: true },
+  condition: { type: String, enum: ['New', 'Used'], required: true },
+  stock: { type: Number, required: true },
+  warranty: { type: String },
+  document: { type: String },
 });
 
 // Create the Product model
 var Product = mongoose.model("product", schemaProduct);
 
-// Function to get the first three products
+// Get first three products
 exports.getThreeProducts = () => {
-  return new Promise((resolve, reject) => {
-    Product.find({}).limit(6)
-      .then(products => resolve(products))
-      .catch(err => reject(err));
-  });
+  return Product.find({}).limit(6);
 };
 
-// Function to get the details of a specific product by ID
+// Get one product details
 exports.getOneProductDetails = (id) => {
-  return new Promise((resolve, reject) => {
-    Product.findById(id)
-      .then(product => resolve(product))
-      .catch(err => reject(err));
-  });
+  return Product.findById(id);
 };
 
-// Function to get all products
-exports.getAllProducts = () => {
-  return new Promise((resolve, reject) => {
-    Product.find({})
-      .populate('category')  // Populate category info for products
-      .then(products => resolve(products))
-      .catch(err => reject(err));
-  });
+// Get all products (with optional skip and limit)
+exports.getAllProducts = (skip = 0, limit = 12) => {
+  return Product.find({})
+    .populate('category')
+    .skip(skip)
+    .limit(limit);
 };
 
-// Function to post a new product
+// Post new product
 exports.postDataProductModel = (title, description, author, price, image, userId, category, manufacturer, model, condition, stock, warranty, document) => {
-  return new Promise((resolve, reject) => {
-    let product = new Product({
-      title: title,
-      description: description,
-      author: author,
-      price: price,
-      image: image, // Single image
-      userId: userId,
-      category: category,  // Add the category to the product
-      manufacturer: manufacturer,
-      model: model,
-      condition: condition,
-      stock: stock,
-      warranty: warranty,
-      document: document, 
-    });
-
-    product.save()
-      .then(() => resolve('added !'))
-      .catch(err => reject(err));
+  const product = new Product({
+    title,
+    description,
+    author,
+    price,
+    image,
+    userId,
+    category,
+    manufacturer,
+    model,
+    condition,
+    stock,
+    warranty,
+    document
   });
+  return product.save();
 };
 
-// Function to get products by a specific user ID
+// Get user's products
 exports.getMyProducts = (userId, searchQuery, skip, limit) => {
-  return new Promise((resolve, reject) => {
-    const filter = {
-      userId: userId,
-      title: { $regex: searchQuery, $options: "i" }, // Case-insensitive search
-    };
+  const filter = {
+    userId,
+    title: { $regex: searchQuery, $options: "i" },
+  };
 
-    Promise.all([
-      Product.find(filter).skip(skip).limit(limit).populate('category'), // Paginated products with category populated
-      Product.countDocuments(filter), // Total count of products matching the filter
-    ])
-      .then(([products, totalProducts]) => resolve({ products, totalProducts }))
-      .catch((err) => reject(err));
-  });
+  return Promise.all([
+    Product.find(filter).skip(skip).limit(limit).populate('category'),
+    Product.countDocuments(filter)
+  ]);
 };
 
-// Function to delete a product by its ID
+// Delete product
 exports.deleteproduct = (id) => {
-  return new Promise((resolve, reject) => {
-    Product.deleteOne({ _id: id })
-      .then(() => resolve(true))
-      .catch(err => reject(err));
-  });
+  return Product.deleteOne({ _id: id });
 };
 
-// Function to get a specific product's data for updating
+// Get product for update
 exports.getPageUpdateProductModel = (id) => {
-  return new Promise((resolve, reject) => {
-    Product.findById(id)
-      .populate('category')  // Populate category info
-      .then(product => resolve(product))
-      .catch(err => reject(err));
-  });
+  return Product.findById(id).populate('category');
 };
 
-// Function to update a product's information
+// Update product
 exports.postUpdateProductModel = (productId, title, description, author, price, image, userId, category, manufacturer, model, condition, stock, warranty, document) => {
-  return new Promise((resolve, reject) => {
-    Product.updateOne(
-      { _id: productId },
-      { title: title, description: description, author: author, price: price, image: image, userId: userId, category: category, manufacturer: manufacturer, model: model, condition: condition, stock: stock, warranty: warranty, document: document  }
-    )
-      .then(() => resolve('updated !'))
-      .catch(err => reject(err));
-  });
+  return Product.updateOne(
+    { _id: productId },
+    { title, description, author, price, image, userId, category, manufacturer, model, condition, stock, warranty, document }
+  );
 };
