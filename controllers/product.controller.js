@@ -90,26 +90,29 @@ exports.postAddProductController = (req, res, next) => {
 
 // Get my products page
 exports.getMyProductsPage = (req, res, next) => {
-  const userId = req.session.user.id; // Using user ID from session
-  const searchQuery = req.query.q || ""; // Search query
+  const userId = req.session.user.id; // Logged-in user ID
+  const searchQuery = req.query.q || ""; // Search term from input
   const page = parseInt(req.query.page) || 1; // Current page
-  const limit = parseInt(req.query.limit) || 5; // Results per page
-  
+  const limit = parseInt(req.query.limit) || 5; // Items per page
+
   const skip = (page - 1) * limit;
 
-  ProductModel.getMyProducts(userId, searchQuery, skip, limit).then((result) => {
-    res.render("myproducts", {
-      user: req.session.user,
-      products: result.products,
-      totalProducts: result.totalProducts,
-      currentPage: page,
-      limit: limit,
-      searchQuery: searchQuery,
-    
+  ProductModel.getMyProducts(userId, searchQuery, skip, limit)
+    .then(([products, totalProducts]) => { 
+      res.render("myproducts", {
+        user: req.session.user,
+        products, 
+        totalProducts,
+        currentPage: page,
+        limit,
+        searchQuery
+      });
+    })
+    .catch(err => {
+      console.error("Error loading products:", err);
+      res.status(500).send("Failed to load products.");
     });
-  });
 };
-
 // Delete a product by ID
 exports.deleteProductController = (req, res, next) => {
   let id = req.params.id;
