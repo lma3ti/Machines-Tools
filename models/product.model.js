@@ -60,17 +60,23 @@ exports.postDataProductModel = (title, description, author, price, image, userId
 };
 
 // Get user's products
-exports.getMyProducts = (userId, searchQuery, skip, limit) => {
+exports.getMyProducts = (userId, searchQuery = "", skip = 0, limit = 10) => {
   const filter = {
     userId,
     title: { $regex: searchQuery, $options: "i" },
   };
 
   return Promise.all([
-    Product.find(filter).skip(skip).limit(limit).populate('category'),
+    Product.find(filter).skip(skip).limit(limit > 0 ? limit : 1000).populate('category'),
     Product.countDocuments(filter)
-  ]);
+  ]).then(([products, count]) => {
+    return {
+      products,
+      totalProducts: count
+    };
+  });
 };
+
 
 // Delete product
 exports.deleteproduct = (id) => {

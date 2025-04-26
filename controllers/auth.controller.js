@@ -1,43 +1,48 @@
 const authModel = require("../models/auth.model");
 const bcrypt = require("bcrypt");
-exports.getRegisterPage = (req, res, next) => {
+
+// ---------- Render Register Page ----------
+exports.getRegisterPage = (req, res) => {
   res.render("register", {
-    user: req.session.user, 
+    user: req.session.user,
     message: req.flash("error")[0],
   });
 };
 
-exports.postRegisterData = (req, res, next) => {
+// ---------- Handle Register Form Submission ----------
+exports.postRegisterData = (req, res) => {
+  const { name, email, password } = req.body;
+
   authModel
-    .registerFunctionModel(req.body.name, req.body.email, req.body.password)
-    .then(() => {
-      res.redirect("/login");
-    })
+    .registerFunctionModel(name, email, password)
+    .then(() => res.redirect("/login"))
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       req.flash("error", err);
       res.redirect("/register");
     });
 };
 
-exports.getLoginPage = (req, res, next) => {
+// ---------- Render Login Page ----------
+exports.getLoginPage = (req, res) => {
   res.render("login", {
     user: req.session.user,
     message: req.flash("error")[0],
   });
 };
 
-exports.postLoginData = (req, res, next) => {
+// ---------- Handle Login Form Submission ----------
+exports.postLoginData = (req, res) => {
+  const { email, password } = req.body;
+
   authModel
-    .loginFunctionModel(req.body.email, req.body.password)
+    .loginFunctionModel(email, password)
     .then((user) => {
-     
       req.session.user = {
-        id: user.id, 
+        id: user.id,
         name: user.name,
         isAdmin: user.isAdmin,
       };
- 
       res.redirect("/");
     })
     .catch((err) => {
@@ -46,25 +51,31 @@ exports.postLoginData = (req, res, next) => {
     });
 };
 
-exports.logoutFunctionController = (req, res, next) => {
-  req.session.destroy(() => {
-    res.redirect("/login");
+// ---------- Logout ----------
+exports.logoutFunctionController = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log("Error destroying session:", err);
+      return res.redirect('/');
+    }
+    res.clearCookie('connect.sid'); // clear session cookie
+    res.redirect('/');
   });
 };
 
-
-// Get all users
+// ---------- Get All Users (Admin Only) ----------
 exports.getAllUsersController = (req, res) => {
   if (req.session.user && req.session.user.isAdmin) {
     authModel
       .getAllUsers()
       .then((users) => {
         res.render("usersmanag", {
-          users: users,
+          users,
           user: req.session.user,
         });
       })
       .catch((err) => {
+        console.error(err);
         res.status(500).send("Error fetching users");
       });
   } else {
@@ -72,23 +83,22 @@ exports.getAllUsersController = (req, res) => {
   }
 };
 
-// Edit user
+// ---------- Edit User ----------
 exports.editUserController = (req, res) => {
   const { id } = req.params;
   const { name, email, password, isAdmin } = req.body;
 
   const updateData = { name, email, isAdmin };
 
-  // If a new password is provided, hash it
+  // If password provided, hash and update
   if (password && password.trim() !== "") {
-    bcrypt.hash(password, 10)
+    bcrypt
+      .hash(password, 10)
       .then((hashedPassword) => {
         updateData.password = hashedPassword;
         return authModel.updateUser(id, updateData);
       })
-      .then(() => {
-        res.redirect("/usersmanag");
-      })
+      .then(() => res.redirect("/usersmanag"))
       .catch((err) => {
         console.error(err);
         res.status(500).send("Error updating user");
@@ -96,31 +106,23 @@ exports.editUserController = (req, res) => {
   } else {
     authModel
       .updateUser(id, updateData)
-      .then(() => {
-        res.redirect("/usersmanag");
-      })
+      .then(() => res.redirect("/usersmanag"))
       .catch((err) => {
         console.error(err);
         res.status(500).send("Error updating user");
       });
   }
 };
-// update user
-exports.updateUser = (id, updatedData) => {
-  return User.findByIdAndUpdate(id, updatedData, { new: true });
-};
 
-// Delete user
+// ---------- Delete User ----------
 exports.deleteUserController = (req, res) => {
   const { id } = req.params;
 
   authModel
     .deleteUser(id)
-    .then(() => {
-      res.redirect("/usersmanag");
-    })
+    .then(() => res.redirect("/usersmanag"))
     .catch((err) => {
+      console.error(err);
       res.status(500).send("Error deleting user");
     });
 };
-

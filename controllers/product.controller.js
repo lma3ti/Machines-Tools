@@ -13,21 +13,63 @@ exports.getAllProductsController = (req, res, next) => {
 };
 
 // Get one product details
+// controllers/product.controller.js
+
+// controllers/product.controller.js
+// Get one product details
 exports.getOneProductDetailsController = (req, res, next) => {
-  let id = req.params.id;
+  const id = req.params.id;
+
   ProductModel.getOneProductDetails(id)
-    .then((product) => {
-      if (req.session.user) {
-        res.render('details', { product });
-      } else {
-        res.render('product-details', { product });
-      }
+    .then(product => {
+      // build the full URL (works on localhost & in production)
+      const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+
+      // SEO meta variables
+      const seoTitle = `${product.title} - OULAD ABDERRAHMAN`;
+      const seoDescription = product.description.slice(0, 150) + '...';
+      const seoKeywords = `${product.title}, CNC machines, industrial equipment, ${product.category.name || product.category}, precision tools, milling machines`;
+
+      // Open Graph and Twitter meta tags
+      const ogTitle = seoTitle;
+      const ogDescription = seoDescription;
+      const ogImage = `/uploads/${ Array.isArray(product.image) ? product.image[0] : product.image }`;
+      const ogUrl = fullUrl;
+
+      const twitterTitle = seoTitle;
+      const twitterDescription = seoDescription;
+      const twitterImage = ogImage;
+      const twitterUrl = ogUrl;
+
+      // choose view based on user session
+      const viewName = req.session.user ? 'details' : 'product-details';
+
+      // render with SEO variables
+      res.render(viewName, {
+        product,
+        title: seoTitle,
+        description: seoDescription,
+        keywords: seoKeywords,
+        ogTitle,
+        ogDescription,
+        ogImage,
+        ogUrl,
+        twitterTitle,
+        twitterDescription,
+        twitterImage,
+        twitterUrl,
+        fullUrl,
+        user: req.session.user
+      });
     })
-    .catch((err) => {
+    .catch(err => {
       console.error("Error fetching product:", err);
       res.status(500).send("Error loading product details");
     });
 };
+
+
+
 
 // Get add product page with categories
 exports.getAddProductController = (req, res, next) => {
@@ -109,16 +151,16 @@ exports.getMyProductsPage = (req, res, next) => {
   const skip = (page - 1) * limit;
 
   ProductModel.getMyProducts(userId, searchQuery, skip, limit)
-    .then(([products, totalProducts]) => {
-      res.render("myproducts", {
-        user: req.session.user,
-        products, 
-        totalProducts,
-        currentPage: page,
-        limit,
-        searchQuery
-      });
-    })
+  .then(({ products, totalProducts }) => {
+    res.render("myproducts", {
+      user: req.session.user,
+      products,
+      totalProducts,
+      currentPage: page,
+      limit,
+      searchQuery
+    });
+  })
     .catch(err => {
       console.error("Error loading products:", err);
       res.status(500).send("Failed to load products.");

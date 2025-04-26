@@ -2961,7 +2961,7 @@
 	 * @todo Rename `slideBy` to `navBy`
 	 */
 	Navigation.Defaults = {
-		nav: false,
+		nav: true,
 		navText: [
 			'<span aria-label="' + 'Previous' + '">&#x2039;</span>',
 			'<span aria-label="' + 'Next' + '">&#x203a;</span>'
@@ -2977,7 +2977,7 @@
 		slideBy: 1,
 		dotClass: 'owl-dot',
 		dotsClass: 'owl-dots',
-		dots: true,
+		dots: false,
 		dotsEach: false,
 		dotsData: false,
 		dotsSpeed: false,

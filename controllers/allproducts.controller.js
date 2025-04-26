@@ -1,6 +1,5 @@
 const { Product } = require("../models/product.model");
 
-
 exports.getPageallproducts = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -26,12 +25,30 @@ exports.getPageallproducts = async (req, res, next) => {
     });
 
     const totalPages = Math.ceil(totalProducts / limit);
+    const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
 
     res.render("allproducts", {
       user: req.session.user,
       productsByCategory,
       currentPage: page,
-      totalPages
+      totalPages,
+
+      // ✅ SEO meta variables
+      title: "All Products - OULAD ABDERRAHMAN",
+      description: "Explore our full range of CNC machines, industrial tools, and equipment. Find the perfect products for your business needs at OULAD ABDERRAHMAN.",
+      keywords: "CNC machines, industrial tools, CNC milling, turning machines, industrial equipment, machinery, precision tools, milling equipment, all products",
+
+      ogTitle: "All Products - OULAD ABDERRAHMAN",
+      ogDescription: "Browse our complete catalog of industrial machines and tools. High performance, reliability, and precision await.",
+      ogImage: "/images/seo-image.jpg",
+      ogUrl: fullUrl,
+
+      twitterTitle: "All Products at OULAD ABDERRAHMAN",
+      twitterDescription: "From CNC machines to precision tools, explore our entire product line.",
+      twitterImage: "/images/seo-image.jpg",
+      twitterUrl: fullUrl,
+
+      fullUrl
     });
 
   } catch (err) {

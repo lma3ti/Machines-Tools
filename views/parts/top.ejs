@@ -1,70 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Machines & Tools</title>
-
-  <!-- Bootstrap -->
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/fontawesome.css">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Industrial CNC Machines & Tools | Oulad Abderrahman</title>
+    <meta name="description" content="Explore premium CNC machines, industrial tools, and precision engineering solutions by Oulad Abderrahman. We deliver top-quality milling, turning, and automation equipment.">
+    <meta name="keywords" content="CNC machines, industrial tools, milling machines, turning machines, automation, precision tools, Oulad Abderrahman, Morocco industry, 3D printing, engineering machines">
+    <meta name="author" content="Oulad Abderrahman Industries">
+    <link rel="canonical" href="https://www.yourdomain.com/">
+  
+    <!-- Open Graph -->
+    <meta property="og:title" content="Industrial CNC Machines & Tools | Oulad Abderrahman">
+    <meta property="og:description" content="Top-of-the-line CNC machines, tools, and industrial solutions tailored for engineers and manufacturers.">
+    <meta property="og:image" content="https://www.yourdomain.com/images/og-image.jpg">
+    <meta property="og:url" content="https://www.yourdomain.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Oulad Abderrahman">
+  
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Industrial CNC Machines & Tools | Oulad Abderrahman">
+    <meta name="twitter:description" content="Explore premium CNC machines and industrial tools made for professionals.">
+    <meta name="twitter:image" content="https://www.yourdomain.com/images/og-image.jpg">
+  
+    <!-- Bootstrap -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+  
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/fontawesome.css">
     <link rel="stylesheet" href="/css/templatemo-sixteen.css">
     <link rel="stylesheet" href="/css/owl.css">
- <!-- Bootstrap core JavaScript -->
- <script src="/vendor/jquery/jquery.min.js"></script>
- <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
- <!-- Additional Scripts -->
- <script src="/js/custom.js"></script>
- <script src="/js/owl.js"></script>
- <script src="/js/slick.js"></script>
- <script src="/js/isotope.js"></script>
- <script src="/js/accordions.js"></script>
-
-
-  <style>
-    /* Dropdown styling */
-    .dropdown-submenu {
-      position: relative;
-    }
   
-    .dropdown-submenu .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 100%;
-      min-width: 180px;
-    }
+    <!-- JS -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/owl.js"></script>
+    <script src="/js/slick.js"></script>
+    <script src="/js/isotope.js"></script>
+    <script src="/js/accordions.js"></script>
   
-    .dropdown-submenu:hover .dropdown-menu {
-      display: block;
-    }
+    <style>
+      .dropdown-submenu { position: relative; }
+      .dropdown-submenu .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        min-width: 180px;
+      }
+      .dropdown-submenu:hover .dropdown-menu { display: block; }
+      .dropdown-menu .dropdown-submenu .dropdown-item {
+        display: inline-block;
+        margin-right: 15px;
+        text-align: center;
+      }
+    </style>
   
-    /* Horizontal layout for subcategories */
-    .dropdown-menu .dropdown-submenu .dropdown-item {
-      display: inline-block;
-      margin-right: 15px;
-      text-align: center;
-    }
-  </style>
-
-  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-  <script>
-    $(document).ready(function(){
-      $('.dropdown-submenu').hover(function() {
-        $(this).children('.dropdown-menu').stop(true, true).slideDown(200);
-      }, function() {
-        $(this).children('.dropdown-menu').stop(true, true).slideUp(200);
+    <script>
+      $(document).ready(function(){
+        $('.dropdown-submenu').hover(function() {
+          $(this).children('.dropdown-menu').stop(true, true).slideDown(200);
+        }, function() {
+          $(this).children('.dropdown-menu').stop(true, true).slideUp(200);
+        });
       });
-    });
-  </script>
-</head>
+    </script>
+  </head>
+  
 
 <body>
 
@@ -97,6 +103,7 @@
                 <a class="dropdown-item" href="/myproducts">My Products</a>
                 <a class="dropdown-item" href="/addproduct">Add Machine</a>
                 <form method="POST" action="/logout">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <button type="submit" class="dropdown-item logout-btn">Logout</button>
                 </form>
               </div>

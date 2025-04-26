@@ -9,7 +9,23 @@
   </div>
 </div>
 <!-- ***** Preloader End ***** -->
+<%- include('parts/seo-tags.ejs', { 
+  title,
+  description,
+  keywords,
 
+  ogTitle,
+  ogDescription,
+  ogImage,
+  ogUrl,
+
+  twitterTitle,
+  twitterDescription,
+  twitterImage,
+  twitterUrl,
+
+  url: fullUrl
+}) %>
 <!-- Page Content -->
 <div class="page-heading products-heading header-text">
   <div class="container">

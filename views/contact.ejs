@@ -1,4 +1,23 @@
 <%- include('parts/top.ejs')%>
+<!-- SEO Meta Tags -->
+<%- include('parts/seo-tags.ejs', {
+  title,
+  description,
+  keywords,
+
+  ogTitle,
+  ogDescription,
+  ogImage,
+  ogUrl,
+
+  twitterTitle,
+  twitterDescription,
+  twitterImage,
+  twitterUrl,
+
+  fullUrl
+}) %>
+
  <!-- ***** Preloader Start ***** -->
  <div id="preloader">
   <div class="jumper">
@@ -20,7 +39,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>   
 
 
   <div class="find-us">
