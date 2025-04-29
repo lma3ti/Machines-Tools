@@ -6,6 +6,7 @@ exports.getRegisterPage = (req, res) => {
   res.render("register", {
     user: req.session.user,
     message: req.flash("error")[0],
+    csrfToken: res.locals.csrfToken 
   });
 };
 
@@ -28,6 +29,7 @@ exports.getLoginPage = (req, res) => {
   res.render("login", {
     user: req.session.user,
     message: req.flash("error")[0],
+    csrfToken: res.locals.csrfToken
   });
 };
 
@@ -72,6 +74,7 @@ exports.getAllUsersController = (req, res) => {
         res.render("usersmanag", {
           users,
           user: req.session.user,
+          csrfToken: res.locals.csrfToken // <-- Needed if you have forms on the page
         });
       })
       .catch((err) => {
@@ -82,7 +85,6 @@ exports.getAllUsersController = (req, res) => {
     res.status(403).send("Unauthorized: Admin only");
   }
 };
-
 // ---------- Edit User ----------
 exports.editUserController = (req, res) => {
   const { id } = req.params;

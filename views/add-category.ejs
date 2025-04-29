@@ -37,6 +37,7 @@
 
                       <!-- Delete Button -->
                       <form action="/deletecategory/<%= category._id %>" method="POST" style="display: inline-block;">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                       </form>
                     </td>
@@ -53,6 +54,7 @@
                           </button>
                         </div>
                         <form action="/editcategory/<%= category._id %>" method="POST">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                           <div class="modal-body">
                             <!-- Category Name Field -->
                             <div class="form-group">
@@ -89,6 +91,7 @@
           </button>
         </div>
         <form action="/addcategory" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="modal-body">
             <!-- Category Name Field -->
             <div class="form-group">

@@ -75,69 +75,80 @@ exports.getOneProductDetailsController = (req, res, next) => {
 exports.getAddProductController = (req, res, next) => {
   CategoryModel.getAllCategories()
     .then(categories => {
-      res.render("addproduct", {
-        user: req.session.user,
-        categories: categories,
-        Smessage: req.flash("Successmessage")[0],
-        Emessage: req.flash("Errormessage")[0],
+      res.render('addproduct', {
+        user:      req.session.user,
+        categories:categories,
+        Smessage:  req.flash('Successmessage')[0],
+        Emessage:  req.flash('Errormessage')[0],
+        csrfToken: req.csrfToken()      // <-- include CSRF token here
       });
     })
     .catch(err => {
-      req.flash("Errormessage", err);
-      res.redirect("/addproduct");
+      req.flash('Errormessage', err);
+      res.redirect('/addproduct');
     });
 };
+
 
 // Post a new product with image compression
 exports.postAddProductController = async (req, res, next) => {
   try {
+    // Destructure form fields from req.body
     const {
-      title, description, author, price, category,
-      manufacturer, model, condition, stock, warranty
-    } = req.body;
-
-    const userId = req.session.user.id;
-    const compressedImageFilenames = [];
-
-    if (req.files.images && req.files.images.length > 0) {
-      for (let file of req.files.images) {
-        const originalPath = file.path;
-        const compressedFilename = `compressed-${Date.now()}-${file.originalname}`;
-        const compressedPath = path.join("assets/uploads", compressedFilename);
-
-        await sharp(originalPath)
-          .resize({ width: 800 })
-          .jpeg({ quality: 70 })
-          .toFile(compressedPath);
-
-        compressedImageFilenames.push(compressedFilename);
-        fs.unlinkSync(originalPath);
-      }
-    }
-
-    const document = req.files.document?.[0]?.filename || '';
-
-    await ProductModel.postDataProductModel(
       title,
       description,
       author,
       price,
-      compressedImageFilenames,
-      userId,
-      category,
       manufacturer,
       model,
       condition,
       stock,
+      warranty,
+      category
+    } = req.body;
+
+    // Log incoming data for debugging
+    console.log('Form Data:', req.body);
+    console.log('Uploaded Files:', req.files);
+
+    // Validate required fields
+    if (!title || !author || !price || !category || !req.files || req.files.length === 0) {
+      req.flash("Errormessage", "All required fields must be filled and at least one image must be uploaded.");
+      return res.redirect("/addproduct");
+    }
+
+    // Extract image file names
+    const imagePaths = req.files.images.map(file => file.filename);
+
+    // If using logged-in user ID
+    const userId = req.session.user.id;
+
+    // Optional document upload — if you allow a separate document upload field
+    const document = req.files.document ? req.files.document[0].filename : "";
+
+    // Call model function to save product
+    await ProductModel.postDataProductModel(
+      title,
+      description,
+      author,
+      parseFloat(price),
+      imagePaths,
+      userId,
+      category, // This should be the ObjectId string from the select
+      manufacturer,
+      model,
+      condition,
+      parseInt(stock),
       warranty,
       document
     );
 
     req.flash("Successmessage", "Product added successfully!");
     res.redirect("/myproducts");
+
   } catch (err) {
-    console.error("Product Upload Error:", err);
-    req.flash("Errormessage", err.message || "An error occurred.");
+    console.error("Error adding product:", err);
+    req.flash("Errormessage", "An error occurred while adding the product.");
     res.redirect("/addproduct");
   }
 };
@@ -191,6 +202,7 @@ exports.getMyProductUpdatePage = (req, res, next) => {
           categories: categories,
           Smessage: req.flash("Successmessage")[0],
           Emessage: req.flash("Errormessage")[0],
+          csrfToken: req.csrfToken()
         });
       });
     })
@@ -207,10 +219,14 @@ exports.postUpdateProductController = async (req, res) => {
       title, description, author, price, category,
       manufacturer, model, condition, stock, warranty
     } = req.body;
+    console.log('Form Data:', req.body);
+    console.log('Uploaded Files:', req.files);
 
     const compressedImageFilenames = [];
 
-    if (req.files.images && req.files.images.length > 0) {
+    // Handle multiple image uploads (req.files.images should be an array)
+    if (req.files && req.files.images) {
+      // Compress new images and add them to the array
       for (let file of req.files.images) {
         const originalPath = file.path;
         const compressedFilename = `compressed-${Date.now()}-${file.originalname}`;
@@ -222,22 +238,31 @@ exports.postUpdateProductController = async (req, res) => {
           .toFile(compressedPath);
 
         compressedImageFilenames.push(compressedFilename);
-        fs.unlinkSync(originalPath);
+        fs.unlinkSync(originalPath); // delete the original file after compression
       }
-    } else {
-      compressedImageFilenames.push(...req.body.oldImages);
     }
 
-    const document = req.files.document?.[0]?.filename || req.body.oldDocument || '';
+    // If no new images are uploaded but old images are passed
+    const allImages = compressedImageFilenames.length > 0
+      ? compressedImageFilenames
+      : req.body.oldImages ? req.body.oldImages.split(',') : [];
+
+    // Ensure allImages is an array and remove duplicates if any
+    const finalImages = [...new Set(allImages)];
+
+    // Optional document upload handling
+    const document = req.files && req.files.document ? req.files.document[0].filename : req.body.oldDocument || '';
+
     const userId = req.session.user.id;
 
+    // Update the product in the database with the final list of images
     await ProductModel.postUpdateProductModel(
       productId,
       title,
       description,
       author,
       price,
-      compressedImageFilenames,
+      finalImages,
       userId,
       category,
       manufacturer,
@@ -250,9 +275,14 @@ exports.postUpdateProductController = async (req, res) => {
 
     req.flash("Successmessage", "Product updated successfully!");
     res.redirect("/myproducts");
+
   } catch (err) {
     console.error("Product Update Error:", err);
     req.flash("Errormessage", err.message || "Failed to update the product.");
     res.redirect("/myproducts");
   }
 };
+
+
+
+

@@ -1,7 +1,7 @@
-// index.js (app.js)
+// index.js
 
 // ---------- Load Environment Variables ----------
-require('dotenv').config(); 
+require('dotenv').config();
 console.log(process.env);
 
 // ---------- Module Imports ----------
@@ -13,7 +13,6 @@ const MongoDbStore = require("connect-mongodb-session")(session);
 const flash = require("connect-flash");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-const csrf = require("csurf");
 const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
 const hpp = require("hpp");
@@ -83,18 +82,7 @@ app.use(
 );
 app.use(flash());
 
-// ---------- CSRF Protection ----------
-const csrfProtection = csrf({ cookie: true });
-app.use(csrfProtection);
-
-// ---------- Global Template Variables ----------
-app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
-  res.locals.user = req.session.user || null;
-  next();
-});
-
-// ---------- Request Logger (Optional) ----------
+// ---------- REQUEST LOGGER ----------
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} ${req.method} ${req.url}`);
   next();

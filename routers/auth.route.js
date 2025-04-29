@@ -1,21 +1,93 @@
-const route = require('express').Router();
+// routers/auth.route.js
+
+const express = require('express');
+const router = express.Router();
 const AuthController = require('../controllers/auth.controller');
-const body = require('express').urlencoded({ extended: true });
+const bodyParser = express.urlencoded({ extended: true });
+const csrf = require('csurf');
 const guardAuth = require('./guardAuth');
 
-// Authentication Routes
-route.get('/register', guardAuth.notAuth, AuthController.getRegisterPage);
-route.post('/register', body, AuthController.postRegisterData);
+// init csurf
+const csrfProtection = csrf({ cookie: true });
 
-route.get('/login', guardAuth.notAuth, AuthController.getLoginPage);
-route.post('/login', body, AuthController.postLoginData);
+// helper to expose csrfToken to res.locals
+function attachCsrf(req, res, next) {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+}
 
-route.post('/logout', AuthController.logoutFunctionController);
-// Admin User Management Routes
-route.get('/usersmanag', guardAuth.isAdmin, AuthController.getAllUsersController);
-route.post('/usersmanag/edit/:id', guardAuth.isAdmin, body, AuthController.editUserController);
-route.post('/usersmanag/delete/:id', guardAuth.isAdmin, AuthController.deleteUserController);
+// === AUTH ROUTES ===
 
+// GET: Registration page
+router.get(
+  '/register',
+  guardAuth.notAuth,
+  csrfProtection,
+  attachCsrf,
+  AuthController.getRegisterPage
+);
 
+// POST: Registration submission
+router.post(
+  '/register',
+  guardAuth.notAuth,
+  bodyParser,
+  csrfProtection,
+  AuthController.postRegisterData
+);
 
-module.exports = route;
+// GET: Login page
+router.get(
+  '/login',
+  guardAuth.notAuth,
+  csrfProtection,
+  attachCsrf,
+  AuthController.getLoginPage
+);
+
+// POST: Login submission
+router.post(
+  '/login',
+  guardAuth.notAuth,
+  bodyParser,
+  csrfProtection,
+  AuthController.postLoginData
+);
+
+// POST: Logout
+router.post(
+  '/logout',
+  csrfProtection,
+  AuthController.logoutFunctionController
+);
+
+// === ADMIN ROUTES ===
+
+// GET: Admin user management page
+router.get(
+  '/usersmanag',
+  guardAuth.isAdmin,
+  csrfProtection,
+  attachCsrf,
+  AuthController.getAllUsersController
+);
+
+// POST: Edit user
+router.post(
+  '/usersmanag/edit/:id',
+  guardAuth.isAdmin,
+  bodyParser,
+  csrfProtection,
+  AuthController.editUserController
+);
+
+// POST: Delete user
+router.post(
+  '/usersmanag/delete/:id',
+  guardAuth.isAdmin,
+  bodyParser,
+  csrfProtection,
+  AuthController.deleteUserController
+);
+
+module.exports = router;

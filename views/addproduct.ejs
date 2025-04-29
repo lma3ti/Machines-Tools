@@ -22,6 +22,7 @@
           
           <!-- Add Product Form -->
           <form action="/addproduct" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <div class="form-group">
               <label for="title">Title</label>
               <input type="text" class="form-control" name="title" id="title" required>

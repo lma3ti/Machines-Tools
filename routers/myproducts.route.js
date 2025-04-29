@@ -1,33 +1,43 @@
-const route = require('express').Router();
+const express = require('express');
+const router = express.Router();
 const productController = require('../controllers/product.controller');
-const multer = require('multer');
 const GuardAuth = require('./guardAuth');
+const multer = require('multer');
+const csrf = require('csurf');
 
-// Route to fetch and display user's products
-route.get('/', GuardAuth.isAuth, productController.getMyProductsPage);
+// Initialize CSRF protection
+const csrfProtection = csrf({ cookie: true });
 
-// Route to delete a product
-route.get('/delete/:id', GuardAuth.isAuth, productController.deleteProductController);
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'assets/uploads'),
+  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
+});
+const upload = multer({ storage }).fields([
+  { name: 'images', maxCount: 5 },
+  { name: 'document', maxCount: 1 }
+]);
 
-// Route to get the update page for a product
-route.get('/update/:id', GuardAuth.isAuth, productController.getMyProductUpdatePage);
+// Routes
+router.get('/', GuardAuth.isAuth, productController.getMyProductsPage);
+router.get('/delete/:id', GuardAuth.isAuth, csrfProtection, productController.deleteProductController);
 
-// Route to handle product update with image upload
-route.post(
-    "/update/:id",
-    multer({
-      storage: multer.diskStorage({
-        destination: function (req, file, cb) {
-          cb(null, "assets/uploads");
-        },
-        filename: function (req, file, cb) {
-          cb(null, Date.now() + "-" + file.originalname);
-        },
-      }),
-    }).single("image"),
-    GuardAuth.isAuth,
-    productController.postUpdateProductController
-  );
-  
 
-module.exports = route;
+// ✅ CSRF protection added to update form GET route
+router.get(
+  '/update/:id',
+  GuardAuth.isAuth,
+  csrfProtection,
+  productController.getMyProductUpdatePage
+);
+
+// ✅ POST update route with CSRF check
+router.post(
+  "/update/:id",
+  GuardAuth.isAuth,
+  upload,
+  csrfProtection,
+  productController.postUpdateProductController
+);
+
+module.exports = router;

@@ -35,32 +35,36 @@
   <div class="container">
     <div class="row">
       <!-- Product Images Column -->
-      <div class="col-md-6">
-        <% if (Array.isArray(product.image) && product.image.length > 1) { %>
-          <!-- Thumbnails for Image Selection -->
-          <div class="row mb-3">
-            <% product.image.forEach((img, index) => { %>
-              <div class="col-3">
-                <img src="/uploads/<%= img %>" class="img-fluid rounded shadow thumbnail-img" alt="<%= product.title %> Image <%= index + 1 %>" data-bs-img="/uploads/<%= img %>">
-              </div>
-            <% }) %>
-          </div>
-          
-          <!-- Main Product Image Display -->
-          <div class="main-image">
-            <img id="mainImage" src="/uploads/<%= product.image[0] %>" class="img-fluid rounded shadow" alt="<%= product.title %>">
-          </div>
-          
-        <% } else if (product.image && typeof product.image === 'string') { %>
-          <!-- If there's only one image (as a string) -->
-          <div class="product-images">
-            <img src="/uploads/<%= product.image %>" alt="<%= product.title %>" class="img-fluid rounded shadow" id="mainImage">
-          </div>
-        <% } else { %>
-          <!-- If no images available -->
-          <p>No image available.</p>
-        <% } %>
-      </div>
+    <!-- Product Images Column -->
+<div class="col-md-6">
+  <% if (Array.isArray(product.image) && product.image.length > 0) { %>
+    <!-- Main Product Image Display -->
+    <div class="main-image mb-3">
+      <img id="mainImage" src="/uploads/<%= product.image[0] %>" class="img-fluid rounded shadow" alt="<%= product.title %>">
+    </div>
+
+    <!-- Thumbnails for Image Selection -->
+    <div class="row">
+      <% product.image.forEach((img, index) => { %>
+        <div class="col-3">
+          <img src="/uploads/<%= img %>" class="img-fluid rounded shadow thumbnail-img <%= index === 0 ? 'active' : '' %>" 
+               alt="<%= product.title %> Thumbnail <%= index + 1 %>" 
+               data-bs-img="/uploads/<%= img %>">
+        </div>
+      <% }) %>
+    </div>
+
+  <% } else if (product.image && typeof product.image === 'string') { %>
+    <!-- Only one image available -->
+    <div class="product-images">
+      <img src="/uploads/<%= product.image %>" alt="<%= product.title %>" class="img-fluid rounded shadow" id="mainImage">
+    </div>
+  <% } else { %>
+    <!-- No images -->
+    <p>No image available.</p>
+  <% } %>
+</div>
+
 
       <!-- Product Information Column -->
       <div class="col-md-6">
@@ -322,14 +326,19 @@
   });
 </script>
 <script>
-  // Add event listener for image thumbnail selection
-  const thumbnails = document.querySelectorAll('.thumbnail-img');
-  const mainImage = document.getElementById('mainImage');
-  
-  thumbnails.forEach(thumbnail => {
-    thumbnail.addEventListener('click', function() {
-      const newImageSrc = this.getAttribute('data-bs-img');
-      mainImage.src = newImageSrc;
+  document.addEventListener('DOMContentLoaded', function() {
+    const thumbnails = document.querySelectorAll('.thumbnail-img');
+    const mainImage = document.getElementById('mainImage');
+
+    thumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', function() {
+        const newSrc = this.getAttribute('data-bs-img');
+        mainImage.src = newSrc;
+
+        // Optional: highlight selected thumbnail
+        thumbnails.forEach(thumb => thumb.classList.remove('active'));
+        this.classList.add('active');
+      });
     });
   });
 </script>

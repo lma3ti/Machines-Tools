@@ -38,6 +38,7 @@
 
                       <!-- Delete Button -->
                       <form action="/usersmanag/delete/<%= user._id %>" method="POST" style="display: inline-block;">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                       </form>
                     </td>
@@ -54,6 +55,7 @@
                           </button>
                         </div>
                         <form action="/usersmanag/edit/<%= user._id %>" method="POST">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                           <div class="modal-body">
                             <!-- Name Field -->
                             <div class="form-group">

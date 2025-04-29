@@ -1,31 +1,49 @@
+const express = require('express');
+const router = express.Router();
 const productController = require('../controllers/product.controller');
-const router = require('express').Router();
 const GuardAuth = require('./guardAuth');
 const multer = require('multer');
-const path = require('path');
+const csrf = require('csurf');
 
-// Configure Multer storage
+// Initialize CSRF protection
+const csrfProtection = csrf({ cookie: true });
+
+// Multer configuration for file uploads
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, 'assets/uploads');
-  },
-  filename: function(req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
+  destination: (req, file, cb) => cb(null, 'assets/uploads'),
+  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
-
-// Use .fields() to allow multiple file fields
-const upload = multer({ storage: storage }).fields([
-  { name: 'images', maxCount: 5 },   // Up to 5 product images
-  { name: 'document', maxCount: 1 }  // 1 technical document (optional)
+const upload = multer({ storage }).fields([
+  { name: 'images', maxCount: 5 },
+  { name: 'document', maxCount: 1 }
 ]);
 
-// Add PRODUCT routes
-router.get('/addproduct', GuardAuth.isAuth, productController.getAddProductController);
+// GET: render "Add Product" page with CSRF token
+router.get(
+  '/addproduct',
+  GuardAuth.isAuth,
+  csrfProtection,
+  productController.getAddProductController
+);
 
-router.post('/addproduct', upload, GuardAuth.isAuth, productController.postAddProductController);
+// POST: handle the form submission (Multer parses files, then CSRF validates)
+router.post(
+  '/addproduct',
+  GuardAuth.isAuth,
+  upload,
+  csrfProtection,
+  productController.postAddProductController
+);
 
-router.get('/products', GuardAuth.isAuth, productController.getAllProductsController);
-router.get('/product/:id', productController.getOneProductDetailsController);
+// Other product routes
+router.get(
+  '/products',
+  GuardAuth.isAuth,
+  productController.getAllProductsController
+);
+router.get(
+  '/product/:id',
+  productController.getOneProductDetailsController
+);
 
 module.exports = router;
