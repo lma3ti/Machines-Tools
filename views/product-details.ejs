@@ -40,7 +40,7 @@
   <% if (Array.isArray(product.image) && product.image.length > 0) { %>
     <!-- Main Product Image Display -->
     <div class="main-image mb-3">
-      <img id="mainImage" src="/uploads/<%= product.image[0] %>" class="img-fluid rounded shadow" alt="<%= product.title %>">
+      <img id="mainImage" src="/uploads/<%= product.image[0] %>" class="img-fluid rounded shadow" alt="<%= product.title %>" style="height: 250px; object-fit: cover;">
     </div>
 
     <!-- Thumbnails for Image Selection -->

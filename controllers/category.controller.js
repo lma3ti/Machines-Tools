@@ -8,7 +8,7 @@ exports.getAllCategoriesController = (req, res, next) => {
         // Render the 'add-category' view with categories and flash messages
         res.render("add-category", { 
           categories: categories, 
-          
+          csrfToken: req.csrfToken(),
           user: req.session.user.id,
           Smessage: req.flash('Successmessage')[0],  // Success message for category
           Emessage: req.flash('Errormessage')[0]    // Error message for category

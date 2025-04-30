@@ -1,11 +1,11 @@
-// controllers/contact.controller.js
+
 
 exports.getPageContact = (req, res, next) => {
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
 
   res.render('contact', {
-    user: req.session.user,
-
+    user: res.locals.user,
+    csrfToken: res.locals.csrfToken,
     // Standard SEO
     title: 'Contact Us | OULAD ABDERRAHMAN - Industrial Solutions',
     description: 'Get in touch with OULAD ABDERRAHMAN, your trusted partner in industrial solutions, CNC machines, milling, and turning machinery. Find our office and contact details here.',

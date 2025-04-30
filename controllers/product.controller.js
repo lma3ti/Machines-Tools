@@ -12,10 +12,7 @@ exports.getAllProductsController = (req, res, next) => {
   });
 };
 
-// Get one product details
-// controllers/product.controller.js
 
-// controllers/product.controller.js
 // Get one product details
 exports.getOneProductDetailsController = (req, res, next) => {
   const id = req.params.id;
