@@ -11,8 +11,7 @@
         aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-search fa-fw"></i>
       </a>
-      <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-        aria-labelledby="searchDropdown">
+      <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
         <form class="navbar-search">
           <div class="input-group">
             <input type="text" class="form-control bg-light border-1 small" placeholder="What do you want to look for?"
@@ -57,33 +56,41 @@
     </li>
 
     <!-- Messages -->
-    <li class="nav-item dropdown no-arrow mx-1">
-      <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-envelope fa-fw"></i>
-        <span class="badge badge-warning badge-counter">2</span>
-      </a>
-      <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-        aria-labelledby="messagesDropdown">
-        <h6 class="dropdown-header">
-          Message Center
-        </h6>
-        <!-- Example message items -->
-        <a class="dropdown-item d-flex align-items-center" href="#">
-          <div class="dropdown-list-image mr-3">
-            <img class="rounded-circle" src="/admin/img/man.png" style="max-width: 60px" alt="">
-            <div class="status-indicator bg-success"></div>
-          </div>
+   <!-- Messages -->
+<li class="nav-item dropdown no-arrow mx-1">
+  <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="false">
+    <i class="fas fa-envelope fa-fw"></i>
+    <span class="badge badge-warning badge-counter">
+      <%= unreadMessages.length %>
+    </span>
+  </a>
+  <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+    aria-labelledby="messagesDropdown">
+    <h6 class="dropdown-header">Message Center</h6>
+
+    <% if (unreadMessages.length === 0) { %>
+      <div class="dropdown-item text-center small text-gray-500">No new messages</div>
+    <% } else { %>
+      <% unreadMessages.forEach(message => { %>
+        <a class="dropdown-item d-flex align-items-center" href="/dashboard/messages/<%= message._id %>">
           <div class="font-weight-bold">
-            <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been
-              having.</div>
-            <div class="small text-gray-500">Udin Cilok · 58m</div>
+            <div class="text-truncate">
+              <%= message.message.length > 50 ? message.message.slice(0, 50) + '...' : message.message %>
+            </div>
+            <div class="small text-gray-500">
+              <%= message.email %> · <%= new Date(message.createdAt).toLocaleString() %>
+            </div>
           </div>
         </a>
-        <!-- Other message items -->
-        <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-      </div>
-    </li>
+      <% }) %>
+    <% } %>
+
+    <a class="dropdown-item text-center small text-gray-500" href="/dashboard/messages">Read More Messages</a>
+  </div>
+</li>
+
+
 
     <!-- Tasks -->
     <li class="nav-item dropdown no-arrow mx-1">
@@ -117,14 +124,17 @@
     <!-- Divider -->
     <div class="topbar-divider d-none d-sm-block"></div>
 
-   
+
     <ul class="navbar-nav ml-auto">
       <% if (user) { %>
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             <img class="img-profile rounded-circle" src="/admin/img/boy.png" style="max-width: 60px">
-            <span class="ml-2 d-none d-lg-inline text-white small"><p> <%= (user.name) %></p>
+            <span class="ml-2 d-none d-lg-inline text-white small">
+              <p>
+                <%= (user.name) %>
+              </p>
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -141,22 +151,22 @@
                 <i class="fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                 Admin Dashboard
               </a>
-            <% } %>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/logout">
-              <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-              Logout
-            </a>
+              <% } %>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/logout">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
           </div>
         </li>
-      <% } else { %>
-        <li class="nav-item">
-          <a class="nav-link" href="/login">
-            <i class="fas fa-sign-in-alt fa-fw mr-2 text-gray-400"></i>
-            Login
-          </a>
-        </li>
-      <% } %>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">
+              <i class="fas fa-sign-in-alt fa-fw mr-2 text-gray-400"></i>
+              Login
+            </a>
+          </li>
+          <% } %>
     </ul>
-    
-  </nav>
+
+</nav>

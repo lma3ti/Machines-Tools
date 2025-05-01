@@ -1,3 +1,5 @@
+// controllers/product.controller.js
+
 const ProductModel = require("../models/product.model");
 const CategoryModel = require("../models/category.model");
 const Product = require("../models/product.model");
@@ -12,22 +14,17 @@ exports.getAllProductsController = (req, res, next) => {
   });
 };
 
-
 // Get one product details
 exports.getOneProductDetailsController = (req, res, next) => {
   const id = req.params.id;
 
   ProductModel.getOneProductDetails(id)
     .then(product => {
-      // build the full URL (works on localhost & in production)
       const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-
-      // SEO meta variables
       const seoTitle = `${product.title} - OULAD ABDERRAHMAN`;
       const seoDescription = product.description.slice(0, 150) + '...';
       const seoKeywords = `${product.title}, CNC machines, industrial equipment, ${product.category.name || product.category}, precision tools, milling machines`;
 
-      // Open Graph and Twitter meta tags
       const ogTitle = seoTitle;
       const ogDescription = seoDescription;
       const ogImage = `/uploads/${ Array.isArray(product.image) ? product.image[0] : product.image }`;
@@ -38,10 +35,8 @@ exports.getOneProductDetailsController = (req, res, next) => {
       const twitterImage = ogImage;
       const twitterUrl = ogUrl;
 
-      // choose view based on user session
       const viewName = req.session.user ? 'details' : 'product-details';
 
-      // render with SEO variables
       res.render(viewName, {
         product,
         title: seoTitle,
@@ -65,19 +60,16 @@ exports.getOneProductDetailsController = (req, res, next) => {
     });
 };
 
-
-
-
 // Get add product page with categories
 exports.getAddProductController = (req, res, next) => {
   CategoryModel.getAllCategories()
     .then(categories => {
       res.render('addproduct', {
-        user:      req.session.user,
-        categories:categories,
-        Smessage:  req.flash('Successmessage')[0],
-        Emessage:  req.flash('Errormessage')[0],
-        csrfToken: req.csrfToken()      // <-- include CSRF token here
+        user: req.session.user,
+        categories: categories,
+        Smessage: req.flash('Successmessage')[0],
+        Emessage: req.flash('Errormessage')[0],
+        csrfToken: req.csrfToken() // <-- include CSRF token here
       });
     })
     .catch(err => {
@@ -86,27 +78,13 @@ exports.getAddProductController = (req, res, next) => {
     });
 };
 
-
 // Post a new product with image compression
 exports.postAddProductController = async (req, res, next) => {
   try {
-    // Destructure form fields from req.body
     const {
-      title,
-      description,
-      author,
-      price,
-      manufacturer,
-      model,
-      condition,
-      stock,
-      warranty,
-      category
+      title, description, author, price, manufacturer,
+      model, condition, stock, warranty, category
     } = req.body;
-
-    // Log incoming data for debugging
-    console.log('Form Data:', req.body);
-    console.log('Uploaded Files:', req.files);
 
     // Validate required fields
     if (!title || !author || !price || !category || !req.files || req.files.length === 0) {
@@ -116,11 +94,9 @@ exports.postAddProductController = async (req, res, next) => {
 
     // Extract image file names
     const imagePaths = req.files.images.map(file => file.filename);
-
-    // If using logged-in user ID
     const userId = req.session.user.id;
 
-    // Optional document upload — if you allow a separate document upload field
+    // Optional document upload
     const document = req.files.document ? req.files.document[0].filename : "";
 
     // Call model function to save product
@@ -131,7 +107,7 @@ exports.postAddProductController = async (req, res, next) => {
       parseFloat(price),
       imagePaths,
       userId,
-      category, // This should be the ObjectId string from the select
+      category,
       manufacturer,
       model,
       condition,
@@ -153,43 +129,49 @@ exports.postAddProductController = async (req, res, next) => {
 // Get my products page
 exports.getMyProductsPage = (req, res, next) => {
   const userId = req.session.user.id;
+  const role = req.session.user.role; // make sure 'role' is stored in the session
   const searchQuery = req.query.q || "";
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 5;
   const skip = (page - 1) * limit;
 
-  ProductModel.getMyProducts(userId, searchQuery, skip, limit)
-  .then(({ products, totalProducts }) => {
-    res.render("myproducts", {
-      user: req.session.user,
-      products,
-      totalProducts,
-      currentPage: page,
-      limit,
-      searchQuery
-    });
-  })
+  const fetchProducts = role === "admin"
+    ? ProductModel.getAllProducts(searchQuery, skip, limit) // admins get all
+    : ProductModel.getMyProducts(userId, searchQuery, skip, limit); // others get their own
+
+  fetchProducts
+    .then(({ products, totalProducts }) => {
+      res.render("myproducts", {
+        user: req.session.user,
+        products,
+        totalProducts,
+        currentPage: page,
+        limit,
+        searchQuery
+      });
+    })
     .catch(err => {
       console.error("Error loading products:", err);
       res.status(500).send("Failed to load products.");
     });
 };
 
+
 // Delete a product by ID
 exports.deleteProductController = (req, res, next) => {
-  let id = req.params.id;
+  const id = req.params.id;
   ProductModel.deleteproduct(id)
     .then(() => {
       res.redirect("/myproducts");
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
     });
 };
 
 // Get update product page with existing product data and categories
 exports.getMyProductUpdatePage = (req, res, next) => {
-  let id = req.params.id;
+  const id = req.params.id;
   CategoryModel.getAllCategories()
     .then(categories => {
       ProductModel.getPageUpdateProductModel(id).then((product) => {
@@ -209,21 +191,14 @@ exports.getMyProductUpdatePage = (req, res, next) => {
     });
 };
 
+// Post updated product with image compression
 exports.postUpdateProductController = async (req, res) => {
   try {
     const productId = req.params.id;
-    const {
-      title, description, author, price, category,
-      manufacturer, model, condition, stock, warranty
-    } = req.body;
-    console.log('Form Data:', req.body);
-    console.log('Uploaded Files:', req.files);
+    const { title, description, author, price, category, manufacturer, model, condition, stock, warranty } = req.body;
 
     const compressedImageFilenames = [];
-
-    // Handle multiple image uploads (req.files.images should be an array)
     if (req.files && req.files.images) {
-      // Compress new images and add them to the array
       for (let file of req.files.images) {
         const originalPath = file.path;
         const compressedFilename = `compressed-${Date.now()}-${file.originalname}`;
@@ -239,20 +214,17 @@ exports.postUpdateProductController = async (req, res) => {
       }
     }
 
-    // If no new images are uploaded but old images are passed
     const allImages = compressedImageFilenames.length > 0
       ? compressedImageFilenames
       : req.body.oldImages ? req.body.oldImages.split(',') : [];
 
-    // Ensure allImages is an array and remove duplicates if any
     const finalImages = [...new Set(allImages)];
 
-    // Optional document upload handling
     const document = req.files && req.files.document ? req.files.document[0].filename : req.body.oldDocument || '';
 
     const userId = req.session.user.id;
+    const updatedBy = userId;  // Store who updated the product
 
-    // Update the product in the database with the final list of images
     await ProductModel.postUpdateProductModel(
       productId,
       title,
@@ -267,7 +239,8 @@ exports.postUpdateProductController = async (req, res) => {
       condition,
       stock,
       warranty,
-      document
+      document,
+      updatedBy  // Pass updatedBy to model
     );
 
     req.flash("Successmessage", "Product updated successfully!");
@@ -279,7 +252,3 @@ exports.postUpdateProductController = async (req, res) => {
     res.redirect("/myproducts");
   }
 };
-
-
-
-

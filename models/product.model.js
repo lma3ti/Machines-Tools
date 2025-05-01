@@ -1,37 +1,42 @@
+// models/product.model.js
+
 const mongoose = require("mongoose");
-const Category = require("./category.model");
 
 // Define the schema for the "product" collection
-var schemaProduct = mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String },
-  author: { type: String, required: true },
-  price: { type: Number, required: true },
-  image: [{ type: String, required: true }], // Array of images
-  userId: { type: String, required: true },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
-  manufacturer: { type: String, required: true },
-  model: { type: String, required: true },
-  condition: { type: String, enum: ['New', 'Used'], required: true },
-  stock: { type: Number, required: true },
-  warranty: { type: String },
-  document: { type: String },
+const schemaProduct = new mongoose.Schema({
+  title:         { type: String, required: true },
+  description:   { type: String },
+  author:        { type: String, required: true },
+  price:         { type: Number, required: true },
+  image:         [{ type: String, required: true }], // Array of image filenames
+  userId:        { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },  // creator
+  updatedBy:     { type: mongoose.Schema.Types.ObjectId, ref: 'User' },                  // last modifier
+  category:      { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
+  manufacturer:  { type: String, required: true },
+  model:         { type: String, required: true },
+  condition:     { type: String, enum: ['New', 'Used'], required: true },
+  stock:         { type: Number, required: true },
+  warranty:      { type: String },
+  document:      { type: String }
+}, {
+  timestamps: true  // adds createdAt and updatedAt
 });
 
-// Create the Product model
-var Product = mongoose.model("product", schemaProduct);
+const Product = mongoose.model("product", schemaProduct);
 
-// Get first three products
+// Exported API
+
+// Get first six products (for homepage)
 exports.getThreeProducts = () => {
   return Product.find({}).limit(6);
 };
 
-// Get one product details
+// Get one product by ID
 exports.getOneProductDetails = (id) => {
-  return Product.findById(id);
+  return Product.findById(id).populate('category');
 };
 
-// Get all products (with optional skip and limit)
+// Get all products with pagination
 exports.getAllProducts = (skip = 0, limit = 12) => {
   return Product.find({})
     .populate('category')
@@ -39,8 +44,12 @@ exports.getAllProducts = (skip = 0, limit = 12) => {
     .limit(limit);
 };
 
-// Post new product
-exports.postDataProductModel = (title, description, author, price, image, userId, category, manufacturer, model, condition, stock, warranty, document) => {
+// Create a new product
+exports.postDataProductModel = (
+  title, description, author, price,
+  image, userId, category, manufacturer,
+  model, condition, stock, warranty, document
+) => {
   const product = new Product({
     title,
     description,
@@ -59,40 +68,60 @@ exports.postDataProductModel = (title, description, author, price, image, userId
   return product.save();
 };
 
-// Get user's products
+// Get products belonging to a specific user
 exports.getMyProducts = (userId, searchQuery = "", skip = 0, limit = 10) => {
   const filter = {
     userId,
     title: { $regex: searchQuery, $options: "i" },
   };
-
   return Promise.all([
-    Product.find(filter).skip(skip).limit(limit > 0 ? limit : 1000).populate('category'),
+    Product.find(filter)
+      .skip(skip)
+      .limit(limit > 0 ? limit : 1000)
+      .populate('category'),
     Product.countDocuments(filter)
-  ]).then(([products, count]) => {
-    return {
-      products,
-      totalProducts: count
-    };
-  });
+  ]).then(([products, count]) => ({
+    products,
+    totalProducts: count
+  }));
 };
 
-
-// Delete product
+// Delete a product by ID
 exports.deleteproduct = (id) => {
   return Product.deleteOne({ _id: id });
 };
 
-// Get product for update
+// Get a single product (for update form)
 exports.getPageUpdateProductModel = (id) => {
   return Product.findById(id).populate('category');
 };
 
-// Update product
-exports.postUpdateProductModel = (productId, title, description, author, price, image, userId, category, manufacturer, model, condition, stock, warranty, document) => {
+// Update a product (recording who updated it)
+exports.postUpdateProductModel = (
+  productId, title, description, author, price,
+  image, userId, category, manufacturer,
+  model, condition, stock, warranty,
+  document, updatedBy
+) => {
   return Product.updateOne(
     { _id: productId },
-    { title, description, author, price, image, userId, category, manufacturer, model, condition, stock, warranty, document }
+    {
+      title,
+      description,
+      author,
+      price,
+      image,
+      userId,
+      updatedBy,
+      category,
+      manufacturer,
+      model,
+      condition,
+      stock,
+      warranty,
+      document
+    }
   );
 };
+
 exports.Product = Product;

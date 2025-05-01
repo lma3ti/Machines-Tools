@@ -17,6 +17,6 @@ route.get(
 
 
 // If you have a POST form on the contact page
-// route.post('/contact', csrfProtection, contactController.postPageContact);
+route.post('/contact', csrfProtection, contactController.sendMessage);
 
 module.exports = route;
