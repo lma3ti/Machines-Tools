@@ -46,44 +46,50 @@
       <div class="col-md-12">
         <div class="filters mb-4">
           <ul>
-            <li class="active" data-filter="*">All Products</li>
-            <% Object.keys(productsByCategory).forEach(category => { %>
-              <li data-filter=".<%= category.replace(' ', '-').toLowerCase() %>"><%= category %></li>
+            <li class="<%= !activeCategory ? 'active' : '' %>">
+              <a href="/allproducts">All Products</a>
+            </li>
+            <% allCategories.forEach(cat => { %>
+              <li class="<%= activeCategory === String(cat._id) ? 'active' : '' %>">
+                <a href="/allproducts?category=<%= cat._id %>"><%= cat.name %></a>
+              </li>
             <% }) %>
           </ul>
+          
         </div>
       </div>
 
       <div class="col-md-12">
         <div class="filters-content">
           <div class="row grid">
-            <% Object.keys(productsByCategory).forEach(category => { %>
-              <% productsByCategory[category].forEach(product => { %>
-                <div class="col-lg-4 col-md-6 mb-4 all <%= category.replace(' ', '-').toLowerCase() %>">
-                  <a href="/product/<%= product._id %>" class="product-link">
-                    <div class="product-item shadow-sm rounded p-2">
-                      <% if (product.image && product.image.length > 0) { %>
-                        <img src="/uploads/<%= product.image[0] %>" alt="<%= product.title %>" class="img-fluid rounded mb-3" style="height: 250px; object-fit: cover;">
-                      <% } else { %>
-                        <img src="/images/placeholder.png" alt="No Image" class="img-fluid rounded mb-3" style="height: 250px; object-fit: cover;">
-                      <% } %>
-                      <div class="down-content text-center">
-                        <h4><%= product.title %></h4>
-                        <h6 class="text-primary">$<%= product.price %></h6>
-                        <p class="text-muted"><%= product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description %></p>
-                        <ul class="stars list-unstyled d-flex justify-content-center mb-2">
-                          <li><i class="fa fa-star text-warning"></i></li>
-                          <li><i class="fa fa-star text-warning"></i></li>
-                          <li><i class="fa fa-star text-warning"></i></li>
-                          <li><i class="fa fa-star text-warning"></i></li>
-                          <li><i class="fa fa-star text-warning"></i></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              <% }) %>
-            <% }) %>
+            <% Object.keys(productsByCategory).forEach(category => {
+              const safeCategory = category.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9\-]/g, '').toLowerCase();
+              productsByCategory[category].forEach(product => {
+         %>
+           <div class="col-lg-4 col-md-6 mb-4 all <%= safeCategory %>">
+             <a href="/product/<%= product._id %>" class="product-link">
+               <div class="product-item shadow-sm rounded p-2">
+                 <% if (product.image && product.image.length > 0) { %>
+                   <img src="/uploads/<%= product.image[0] %>" alt="<%= product.title %>" class="img-fluid rounded mb-3" style="height: 250px; object-fit: cover;">
+                 <% } else { %>
+                   <img src="/images/placeholder.png" alt="No Image" class="img-fluid rounded mb-3" style="height: 250px; object-fit: cover;">
+                 <% } %>
+                 <div class="down-content text-center">
+                   <h4><%= product.title %></h4>
+                   <h6 class="text-primary">$<%= product.price %></h6>
+                   <p class="text-muted"><%= product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description %></p>
+                   <ul class="stars list-unstyled d-flex justify-content-center mb-2">
+                     <li><i class="fa fa-star text-warning"></i></li>
+                     <li><i class="fa fa-star text-warning"></i></li>
+                     <li><i class="fa fa-star text-warning"></i></li>
+                     <li><i class="fa fa-star text-warning"></i></li>
+                     <li><i class="fa fa-star text-warning"></i></li>
+                   </ul>
+                 </div>
+               </div>
+             </a>
+           </div>
+         <% }) }) %>
           </div>
         </div>
       </div>
@@ -92,25 +98,27 @@
       <div class="col-md-12">
         <ul class="pages">
           <% if (currentPage > 1) { %>
-            <li><a href="?page=<%= currentPage - 1 %>">&laquo; Prev</a></li>
-          <% } %>
-      
-          <% for (let i = 1; i <= totalPages; i++) { %>
-            <li class="<%= currentPage === i ? 'active' : '' %>">
-              <a href="?page=<%= i %>"><%= i %></a>
+            <li>
+              <a href="?page=<%= currentPage - 1 %><%= activeCategory ? '&category=' + activeCategory : '' %>">&laquo; Prev</a>
             </li>
           <% } %>
-      
+        
+          <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="<%= currentPage === i ? 'active' : '' %>">
+              <a href="?page=<%= i %><%= activeCategory ? '&category=' + activeCategory : '' %>"><%= i %></a>
+            </li>
+          <% } %>
+        
           <% if (currentPage < totalPages) { %>
-            <li><a href="?page=<%= currentPage + 1 %>">Next &raquo;</a></li>
+            <li>
+              <a href="?page=<%= currentPage + 1 %><%= activeCategory ? '&category=' + activeCategory : '' %>">Next &raquo;</a>
+            </li>
           <% } %>
         </ul>
+        
       </div>
-      
-
     </div>
   </div>
 </div>
 
 <%- include('parts/buttom.ejs') %>
-

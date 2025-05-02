@@ -13,14 +13,20 @@ route.get(
     "/dashboard",
     GuardAuth.isAdmin,    // only admins
     csrfProtection,
-    attachUser,           // middleware that does: res.locals.user = req.session.user
-    attachUnreadMessages,       // sets up req.csrfToken()
-    attachCsrf,           // middleware that does: res.locals.csrfToken = req.csrfToken()
+    attachUser,           
+    attachUnreadMessages,       
+    attachCsrf,           
     dashboardController.getDashboard
   );
 
 // Dashboard table page
-route.get('/tables', GuardAuth.isAuth, dashboardController.getTableDashboard);
+route.get('/tables', GuardAuth.isAdmin,    // only admins
+  csrfProtection,
+  attachUser,           
+  attachUnreadMessages,       
+  attachCsrf,            
+  dashboardController.getTableDashboard
+);
 
 // Messages management (Admin only)
 route.get(

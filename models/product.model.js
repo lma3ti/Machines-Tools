@@ -37,11 +37,20 @@ exports.getOneProductDetails = (id) => {
 };
 
 // Get all products with pagination
-exports.getAllProducts = (skip = 0, limit = 12) => {
-  return Product.find({})
-    .populate('category')
-    .skip(skip)
-    .limit(limit);
+exports.getAllProducts = async (searchQuery = '', skip = 0, limit = 10) => {
+  const query = searchQuery
+    ? { title: { $regex: searchQuery, $options: 'i' } }
+    : {};
+
+  const [products, totalProducts] = await Promise.all([
+    Product.find(query)
+      .populate('category')
+      .skip(skip)
+      .limit(limit),
+    Product.countDocuments(query)
+  ]);
+
+  return { products, totalProducts };
 };
 
 // Create a new product

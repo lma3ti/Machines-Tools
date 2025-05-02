@@ -6,7 +6,7 @@ const AuthController = require('../controllers/auth.controller');
 const bodyParser = express.urlencoded({ extended: true });
 const csrf = require('csurf');
 const guardAuth = require('./guardAuth');
-
+const  attachUnreadMessages = require('./middleware/fetchUnreadMessages');
 // init csurf
 const csrfProtection = csrf({ cookie: true });
 
@@ -69,6 +69,7 @@ router.get(
   guardAuth.isAdmin,
   csrfProtection,
   attachCsrf,
+   attachUnreadMessages,  
   AuthController.getAllUsersController
 );
 

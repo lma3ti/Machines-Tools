@@ -138,8 +138,7 @@ exports.getMyProductsPage = (req, res, next) => {
   const fetchProducts = role === "admin"
     ? ProductModel.getAllProducts(searchQuery, skip, limit) // admins get all
     : ProductModel.getMyProducts(userId, searchQuery, skip, limit); // others get their own
-
-  fetchProducts
+    fetchProducts
     .then(({ products, totalProducts }) => {
       res.render("myproducts", {
         user: req.session.user,
@@ -147,7 +146,8 @@ exports.getMyProductsPage = (req, res, next) => {
         totalProducts,
         currentPage: page,
         limit,
-        searchQuery
+        searchQuery,
+        
       });
     })
     .catch(err => {

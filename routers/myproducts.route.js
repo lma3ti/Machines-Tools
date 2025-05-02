@@ -4,7 +4,7 @@ const productController = require('../controllers/product.controller');
 const GuardAuth = require('./guardAuth');
 const multer = require('multer');
 const csrf = require('csurf');
-
+const attachUnreadMessages = require('./middleware/fetchUnreadMessages');  
 // Initialize CSRF protection
 const csrfProtection = csrf({ cookie: true });
 
@@ -19,7 +19,7 @@ const upload = multer({ storage }).fields([
 ]);
 
 // Routes
-router.get('/', GuardAuth.isAuth, productController.getMyProductsPage);
+router.get('/', GuardAuth.isAuth,attachUnreadMessages, productController.getMyProductsPage);
 router.get('/delete/:id', GuardAuth.isAuth, csrfProtection, productController.deleteProductController);
 
 
@@ -27,6 +27,7 @@ router.get('/delete/:id', GuardAuth.isAuth, csrfProtection, productController.de
 router.get(
   '/update/:id',
   GuardAuth.isAuth,
+  attachUnreadMessages,
   csrfProtection,
   productController.getMyProductUpdatePage
 );

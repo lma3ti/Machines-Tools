@@ -4,7 +4,7 @@ const productController = require('../controllers/product.controller');
 const GuardAuth = require('./guardAuth');
 const multer = require('multer');
 const csrf = require('csurf');
-
+const  attachUnreadMessages = require('./middleware/fetchUnreadMessages');
 // Initialize CSRF protection
 const csrfProtection = csrf({ cookie: true });
 
@@ -23,6 +23,7 @@ router.get(
   '/addproduct',
   GuardAuth.isAuth,
   csrfProtection,
+  attachUnreadMessages,
   productController.getAddProductController
 );
 
@@ -39,10 +40,12 @@ router.post(
 router.get(
   '/products',
   GuardAuth.isAuth,
+  
   productController.getAllProductsController
 );
 router.get(
   '/product/:id',
+  attachUnreadMessages,
   productController.getOneProductDetailsController
 );
 

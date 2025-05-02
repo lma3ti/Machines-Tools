@@ -18,7 +18,7 @@ exports.getDashboard = async (req, res, next) => {
   try {
     const [productResult, categories, totalUsers, totalAdmins, unreadMessages] = await Promise.all([
       isAdmin
-        ? ProductModel.getAllProducts(skip, limit)
+        ? ProductModel.getAllProducts('', skip, limit)
         : ProductModel.getMyProducts(user.id, '', skip, limit),
       CategoryModel.getAllCategories(),
       AuthModel.countUsers(),
@@ -39,6 +39,7 @@ exports.getDashboard = async (req, res, next) => {
       totalPages: Math.ceil(totalProducts / limit),
       unreadMessages
     });
+    console.log(totalProducts);
   } catch (err) {
     console.error('Error fetching dashboard:', err);
     res.status(500).send("Dashboard load error.");
