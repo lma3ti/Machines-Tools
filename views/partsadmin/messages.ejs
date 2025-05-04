@@ -1,0 +1,58 @@
+<%- include('top') %>
+<%- include('sidebar') %>
+
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <!-- TopBar -->
+    <%- include('navbar') %>
+
+    <div class="container-fluid" id="container-wrapper">
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Contact Messages</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Messages</li>
+        </ol>
+      </div>
+
+      <!-- Message List Table -->
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <% if (messages.length === 0) { %>
+            <p>No messages found.</p>
+          <% } else { %>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% messages.forEach(message => { %>
+                    <tr>
+                      <td><%= message.name %></td>
+                      <td><%= message.email %></td>
+                      <td><%= message.subject %></td>
+                      <td><%= message.createdAt.toLocaleString() %></td>
+                      <td>
+                        <a href="/dashboard/messages/<%= message._id %>" class="btn btn-sm btn-info">View</a>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include('footer') %>
+</div>
+
+<%- include('bottom') %>

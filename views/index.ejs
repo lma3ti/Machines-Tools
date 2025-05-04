@@ -1,0 +1,142 @@
+<%- include('parts/top.ejs') %>
+<%- include('parts/seo-tags.ejs', {
+    title: title,
+    description: description,
+    keywords: keywords,
+  
+    ogTitle: ogTitle,
+    ogDescription: ogDescription,
+    ogImage: ogImage,
+    ogUrl: ogUrl,
+  
+    twitterTitle: twitterTitle,
+    twitterDescription: twitterDescription,
+    twitterImage: twitterImage,
+    twitterUrl: twitterUrl,
+  
+    url: fullUrl
+  }) %>
+  
+<!-- ***** Preloader Start ***** -->
+<div id="preloader">
+    <div class="jumper">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>  
+<!-- ***** Preloader End ***** -->
+
+<!-- Page Content -->
+<!-- Banner Starts Here -->
+<div class="banner header-text">
+    <div class="owl-banner owl-carousel">
+        <div class="banner-item-01">
+            <div class="text-content">
+                <h4>Best Offer</h4>
+                <h2>New Arrivals On Sale</h2>
+            </div>
+        </div>
+        <div class="banner-item-02">
+            <div class="text-content">
+                <h4>Flash Deals</h4>
+                <h2>Get Your Best Products</h2>
+            </div>
+        </div>
+        <div class="banner-item-03">
+            <div class="text-content">
+                <h4>Last Minute</h4>
+                <h2>Grab Last Minute Deals</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner Ends Here -->
+
+<div class="latest-products">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-heading">
+                    <h2>Latest CNC Machines & Industrial Tools</h2>
+                    <a href="/allproducts">View all products <i class="fa fa-angle-right"></i></a>
+                </div>
+            </div>
+            <% for(let product of products) { %>
+                <div class="col-md-4">
+                    <div class="product-item">
+                        <a href="/product/<%= product._id %>"><img src="uploads/<%= product.image %>" alt="<%= product.title %> - Industrial Tool"></a>
+                        <div class="down-content">
+                            <a href="/product/<%= product._id %>" class="img-fluid"><h4><%= product.title %></h4></a>
+                            <h6>$<%= product.price %></h6>
+                            <p><%= product.description %></p>
+                            <ul class="stars">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                            </ul>
+                            <span>Reviews (24)</span>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<!-- About OULAD ABDERRAHMAN Section -->
+<div class="best-features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-heading">
+                    <h2>About OULAD ABDERRAHMAN</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="left-content">
+                    <h4>Learn More About Our Company</h4>
+                    <p>OULAD ABDERRAHMAN is committed to providing high-quality industrial products tailored to meet the specific needs of our clients. With years of experience and a strong focus on innovation, we aim to deliver solutions that drive success for your business.</p>
+                    <ul class="featured-list">
+                        <li><a href="#">Expert in CNC Machines</a></li>
+                        <li><a href="#">Leaders in Industrial Tools</a></li>
+                        <li><a href="#">Pioneers in 3D Printing Technology</a></li>
+                        <li><a href="#">Advanced Milling and Turning Equipment</a></li>
+                        <li><a href="#">Precision Engineering at its Best</a></li>
+                    </ul>
+                    <a href="about" class="filled-button">Learn More About Us</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="right-image">
+                    <img src="images/00000008.jpg" alt="About Our Company">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="call-to-action">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="inner-content">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4>Discover Premium Industrial <em>Machines & Tools</em></h4>
+                            <p>Looking for top-of-the-line industrial products? From CNC machines to precision tools, we offer high-quality solutions tailored for your business needs. Explore our catalog and take your operations to the next level.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="allproducts" class="filled-button">Browse Our Products</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('parts/buttom.ejs') %>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Industrial CNC Machines & Tools | Oulad Abderrahman</title>
+    <meta name="description" content="Explore premium CNC machines, industrial tools, and precision engineering solutions by Oulad Abderrahman. We deliver top-quality milling, turning, and automation equipment.">
+    <meta name="keywords" content="CNC machines, industrial tools, milling machines, turning machines, automation, precision tools, Oulad Abderrahman, Morocco industry, 3D printing, engineering machines">
+    <meta name="author" content="Oulad Abderrahman Industries">
+    <link rel="canonical" href="https://www.yourdomain.com/">
+  
+    <!-- Open Graph -->
+    <meta property="og:title" content="Industrial CNC Machines & Tools | Oulad Abderrahman">
+    <meta property="og:description" content="Top-of-the-line CNC machines, tools, and industrial solutions tailored for engineers and manufacturers.">
+    <meta property="og:image" content="https://www.yourdomain.com/images/og-image.jpg">
+    <meta property="og:url" content="https://www.yourdomain.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Oulad Abderrahman">
+  
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Industrial CNC Machines & Tools | Oulad Abderrahman">
+    <meta name="twitter:description" content="Explore premium CNC machines and industrial tools made for professionals.">
+    <meta name="twitter:image" content="https://www.yourdomain.com/images/og-image.jpg">
+  
+    <!-- Bootstrap -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+  
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/fontawesome.css">
+    <link rel="stylesheet" href="/css/templatemo-sixteen.css">
+    <link rel="stylesheet" href="/css/owl.css">
+  
+    <!-- JS -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/owl.js"></script>
+    <script src="/js/slick.js"></script>
+    <script src="/js/isotope.js"></script>
+    <script src="/js/accordions.js"></script>
+  
+    <style>
+      .dropdown-submenu { position: relative; }
+      .dropdown-submenu .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        min-width: 180px;
+      }
+      .dropdown-submenu:hover .dropdown-menu { display: block; }
+      .dropdown-menu .dropdown-submenu .dropdown-item {
+        display: inline-block;
+        margin-right: 15px;
+        text-align: center;
+      }
+    </style>
+  
+    <script>
+      $(document).ready(function(){
+        $('.dropdown-submenu').hover(function() {
+          $(this).children('.dropdown-menu').stop(true, true).slideDown(200);
+        }, function() {
+          $(this).children('.dropdown-menu').stop(true, true).slideUp(200);
+        });
+      });
+    </script>
+  </head>
+  
+
+<body>
+
+<header>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <h2>OULAD <em>ABDELOUAHED</em></h2>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/allproducts">Catalog</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+          <% const user = locals.user; %>
+          <% if (user) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                <%= user.name %>
+              </a>
+              <div class="dropdown-menu">
+                <% if (user.isAdmin) { %>
+                  <a class="dropdown-item" href="/dashboard">Admin Dashboard</a>
+                <% } %>
+                <a class="dropdown-item" href="/myproducts">My Products</a>
+                <a class="dropdown-item" href="/addproduct">Add Machine</a>
+                <form method="POST" action="/logout">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <button type="submit" class="dropdown-item logout-btn">Logout</button>
+                </form>
+              </div>
+            </li>
+          <% } else { %>
+            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+          <% } %>
+
+          <li class="nav-item"><a href="#" class="nav-link cta-btn">Get Help</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,47 @@
+<%- include('parts/top.ejs') %>
+<br><br><br><br><br><br>
+
+<!-- ***** Preloader Start ***** -->
+<div id="preloader">
+    <div class="jumper">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>  
+<!-- ***** Preloader End ***** -->
+
+<div class="container">
+
+    <form method="POST" action="/register">
+        <!-- CSRF Token -->
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        
+        <!-- Name input -->
+        <div class="form-outline mb-4">
+            <input type="text" name="name" class="form-control" placeholder="Name" />
+        </div>
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input type="email" name="email" class="form-control" placeholder="Email address" />
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" name="password" class="form-control" placeholder="Password" />
+        </div>
+
+        <% if(message){ %>
+            <div class="alert alert-danger">
+                <%= message %>
+            </div>
+        <% } %>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+    </form>
+
+</div>
+
+<%- include('parts/buttom.ejs') %>

@@ -1,0 +1,118 @@
+<%- include('partsadmin/top') %>
+<%- include('partsadmin/sidebar') %>
+
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <!-- TopBar -->
+    <%- include('partsadmin/navbar') %>
+
+    <div class="container-fluid" id="container-wrapper">
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Add Product</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Add Product</li>
+        </ol>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="col-md-9">
+        <div class="container">
+          <h2 class="mb-4">Add Product</h2>
+
+          <!-- Error Messages (if any) -->
+          <% if (Emessage) { %>
+            <div class="alert alert-danger">
+              <%= Emessage %>
+            </div>
+          <% } %>
+
+          <!-- Add Product Form -->
+          <form action="/addproduct" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" class="form-control" name="title" id="title" required>
+            </div>
+
+            <!-- Pre-fill author field with the logged-in admin's name -->
+            <div class="form-group">
+              <label for="author">Author</label>
+              <input type="text" class="form-control" name="author" id="author" value="<%= user.name %>" readonly>
+            </div>
+
+            <div class="form-group">
+              <label for="price">Price</label>
+              <input type="number" class="form-control" name="price" id="price" required>
+            </div>
+
+            <!-- File input for multiple images -->
+            <div class="form-group">
+              <label for="images">Images</label>
+              <input type="file" class="form-control" name="images" id="images" multiple required>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" class="form-control" name="description" id="description" required>
+            </div>
+
+            <!-- Machine Details -->
+            <div class="form-group">
+              <label for="manufacturer">Manufacturer</label>
+              <input type="text" class="form-control" name="manufacturer" id="manufacturer" required>
+            </div>
+
+            <div class="form-group">
+              <label for="model">Model</label>
+              <input type="text" class="form-control" name="model" id="model" required>
+            </div>
+
+            <div class="form-group">
+              <label for="condition">Condition</label>
+              <select id="condition" name="condition" class="form-control" required>
+                <option value="">Select Condition</option>
+                <option value="New">New</option>
+                <option value="Used">Used</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="stock">Stock</label>
+              <input type="number" class="form-control" name="stock" id="stock" required>
+            </div>
+
+            <div class="form-group">
+              <label for="warranty">Warranty</label>
+              <input type="text" class="form-control" name="warranty" id="warranty">
+            </div>
+
+            <!-- File input for technical document -->
+            <div class="form-group">
+              <label for="document">Technical Document</label>
+              <input type="file" class="form-control" name="document" id="document">
+            </div>
+
+            <!-- Category Selection -->
+            <div class="form-group">
+              <label for="category">Category:</label>
+              <select id="category" name="category" class="form-control" required>
+                <option value="">Select Category</option>
+                <% categories.forEach(category => { %>
+                  <option value="<%= category._id %>"><%= category.name %></option>
+                <% }) %>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Product</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <%- include('partsadmin/footer') %>
+</div>
+
+<%- include('partsadmin/bottom') %>
